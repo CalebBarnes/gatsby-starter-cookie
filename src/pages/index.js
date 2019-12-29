@@ -23,6 +23,7 @@ const IndexPage = () => {
         nodes {
           author {
             firstName
+            lastName
           }
           title
           date
@@ -43,23 +44,28 @@ const IndexPage = () => {
       <SEO title="Home" />
 
       {fetching && <p>Loading...</p>}
+      {data?.posts && <h3>Posts:</h3>}
       {data &&
         data.posts &&
         data.posts.nodes.map((post, index) => (
           <div key={index}>
             <h1>{post.title}</h1>
-            <p>{Parser(post.content)}</p>
+            {Parser(post.content)}
             <p>{post.date}</p>
+            <p>
+              Posted by: {post?.author?.firstName} {post?.author?.lastName}
+            </p>
           </div>
         ))}
 
+      {data?.users && <h3>Users:</h3>}
       {data &&
         data.users &&
         data.users.nodes.map((user, index) => (
           <div key={index}>
-            <p>{user.userId}</p>
-            <p>{user.firstName}</p>
-            <p>{user.lastName}</p>
+            <p>
+              {user.userId}: {user.firstName} {user.lastName}
+            </p>
             <p>{user.nickname}</p>
             <p>{user.email}</p>
             <p>{user.email}</p>
