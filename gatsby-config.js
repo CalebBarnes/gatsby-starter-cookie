@@ -5,7 +5,12 @@ module.exports = {
     author: `Caleb Barnes`,
   },
   plugins: [
-    `gatsby-plugin-react-helmet`,
+    {
+      resolve: "gatsby-plugin-netlify-cache",
+      options: {
+        cachePublic: true,
+      },
+    }`gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
