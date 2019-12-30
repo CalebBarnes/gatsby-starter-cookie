@@ -5,14 +5,21 @@ import { useMutation } from "urql"
 import gql from "graphql-tag"
 
 import { setAuth, getAuth } from "../../auth"
-
 import sanitizeErrors from "./sanitizeErrors"
 import Button from "../button"
+import { useStore } from "../../state/store"
 
 export default () => {
+  // dispatch to manage login state & store user info
+  const [, dispatch] = useStore()
+
+  // 'values' for controlling state of inputs
   const [values, setValues] = useState({ username: "", password: "" })
+
+  // 'formError' for managing the forms error messages
   const [formError, setFormError] = useState("")
 
+  // WP GraphQL mutation to log in to wordpress
   const loginMutation = gql`
     mutation LoginMutation($username: String!, $password: String!) {
       login(
@@ -26,56 +33,74 @@ export default () => {
         authToken
         refreshToken
         user {
+          id
           email
           firstName
           lastName
           username
+          avatar {
+            url
+            isRestricted
+          }
+          capKey
+          capabilities
+          description
+          isJwtAuthSecretRevoked
+          jwtAuthExpiration
+          locale
+          slug
+          userId
         }
       }
     }
   `
 
+  // 'useMutation' from 'urql' - react hooks implementation
   const [res, executeLogin] = useMutation(loginMutation)
+  // console.log({ ...res })
 
-  console.log({ ...res })
-
+  // control the form input values with state
   const handleChange = ({ target: { name, value } }) => {
     setValues({ ...values, [name]: value })
   }
 
-  //   console.log({ ...values })
-
   const handleSubmit = e => {
+    // prevent default form submission
     e.preventDefault()
     setFormError("")
 
     const { username, password } = values
 
+    // prevent request with empty username or password
     if (username === "" || password === "") {
       setFormError("Please enter a username and password")
       return
     }
+
+    // execute login mutation with the input values from the state
     executeLogin({ username, password })
-      .then(result => {
-        console.log({ ...result })
-        const { error, data } = result
+      .then(response => {
+        console.log("then", response)
+        const { error, data } = response
 
         if (error?.graphQLErrors) {
-          // Handle form errors
+          // handle form errors
           error.graphQLErrors.map(err =>
             setFormError(sanitizeErrors(err.message))
           )
           return
         }
 
-        if (data) {
-          // Store auth token
+        if (data && data.login) {
+          // store the auth/refresh tokens
           setAuth(data)
-        }
 
-        // if (data?.user) {
-        //   // Store user info in context store
-        // }
+          // store user info in context store
+          dispatch({ type: "SET_USER_INFO", payload: data.login.user })
+
+          // update logged in state
+          dispatch({ type: "SET_LOGGED_IN", payload: true })
+        }
       })
       .catch(error => {
         console.log({ error })

@@ -7,6 +7,8 @@ import Button from "./button"
 
 import { useStore } from "../state/store"
 
+import { logoutUser } from "./../auth"
+
 const Component = props => {
   const {
     site: {
@@ -22,7 +24,7 @@ const Component = props => {
     }
   `)
 
-  const [{ isLoggedIn, userInfo }] = useStore()
+  const [{ isLoggedIn, user }, dispatch] = useStore()
 
   return (
     <Header {...props}>
@@ -33,22 +35,25 @@ const Component = props => {
           </h1>
 
           <Nav>
-            <RightMenu>
+            <LeftMenu>
               <NavButton to="/users">Users</NavButton>
+            </LeftMenu>
+            <RightMenu>
+              {!isLoggedIn && (
+                <>
+                  <NavButton to="/login">Log in</NavButton>
 
-              <NavButton to="/login">Log in</NavButton>
+                  <NavButton variant="action" to="/register">
+                    Get started
+                  </NavButton>
+                </>
+              )}
 
-              <NavButton variant="action" to="/">
-                Get started
-              </NavButton>
+              {isLoggedIn && (
+                <Button onClick={() => logoutUser(dispatch)}>Log out</Button>
+              )}
             </RightMenu>
           </Nav>
-
-          <h4>
-            {isLoggedIn && userInfo?.battletag && (
-              <PageLink to="/fetch">{userInfo?.battletag}</PageLink>
-            )}
-          </h4>
         </Flex>
       </Edges>
     </Header>
@@ -65,14 +70,14 @@ const RightMenu = styled.div`
   display: flex;
 `
 
+const LeftMenu = styled.div`
+  display: flex;
+`
+
 const Nav = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 100%;
-`
-
-const PageLink = styled(Link)`
-  margin-left: 10px;
 `
 
 const Header = styled.header`

@@ -1,7 +1,18 @@
 import isBrowser from "./isBrowser"
 
+/**
+ *
+ * @param {string} key
+ * @param {any} value
+ */
+
 const setLocalStorage = (key, value) => {
   if (!isBrowser) {
+    return
+  }
+
+  if (key && value === null) {
+    window.localStorage.removeItem(key)
     return
   }
 

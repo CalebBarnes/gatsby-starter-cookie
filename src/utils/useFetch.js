@@ -7,6 +7,12 @@ const initialState = {
   called: false,
 }
 
+/**
+ * Makes a request to an endpoint and manages the 'called', 'loading', and 'error' state
+ * @param {string} endpoint
+ * @param {object} args
+ * @returns {array} Returns an array [function, object]
+ */
 export const useFetch = (endpoint, args = {}) => {
   const {
     headers = null,

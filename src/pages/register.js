@@ -4,8 +4,6 @@ import { navigate } from "gatsby"
 
 import SEO from "../components/seo"
 
-import LoginForm from "../components/loginForm"
-
 import { useStore } from "../state/store"
 
 const LoginPage = () => {
@@ -15,9 +13,8 @@ const LoginPage = () => {
 
   return (
     <Container>
-      <SEO title="Log in" />
-      <h1>Log in</h1>
-      <LoginForm />
+      <SEO title="Create an account" />
+      <h1>Get started</h1>
     </Container>
   )
 }

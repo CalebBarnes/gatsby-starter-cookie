@@ -2,7 +2,7 @@ import React, { createContext, useContext, useReducer } from "react"
 
 const initialState = {
   isLoggedIn: false,
-  userInfo: null,
+  user: null,
 }
 
 const reducer = (state, action) => {
@@ -16,7 +16,7 @@ const reducer = (state, action) => {
     case "SET_USER_INFO":
       return {
         ...state,
-        userInfo: action.payload,
+        user: action.payload,
       }
 
     default:
