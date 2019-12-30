@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `Logo`,
+    title: `App`,
     description: `A simple Gatsby theme with my essentials preconfigured.`,
     author: `Caleb Barnes`,
   },

@@ -81,8 +81,6 @@ const Container = styled(({ loading, ...rest }) => <div {...rest} />)`
 `
 
 const buttonStyles = css`
-  /* all: unset; */
-
   border-radius: 3px;
   display: inline-block;
   vertical-align: center;
