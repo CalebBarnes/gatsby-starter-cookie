@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { useStaticQuery, graphql, Link } from "gatsby"
 
 import Edges from "./edges"
+import Button from "./button"
 
 import { useStore } from "../state/store"
 
@@ -30,6 +31,19 @@ const Component = props => {
           <h1>
             <Link to="/">{siteTitle}</Link>
           </h1>
+
+          <Nav>
+            <RightMenu>
+              <NavButton to="/users">Users</NavButton>
+
+              <NavButton to="/login">Log in</NavButton>
+
+              <NavButton variant="action" to="/">
+                Get started
+              </NavButton>
+            </RightMenu>
+          </Nav>
+
           <h4>
             {isLoggedIn && userInfo?.battletag && (
               <PageLink to="/fetch">{userInfo?.battletag}</PageLink>
@@ -43,14 +57,27 @@ const Component = props => {
 
 export default Component
 
+const NavButton = styled(Button)`
+  margin-left: 25px;
+`
+
+const RightMenu = styled.div`
+  display: flex;
+`
+
+const Nav = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+`
+
 const PageLink = styled(Link)`
   margin-left: 10px;
 `
 
 const Header = styled.header`
-  background: rebeccapurple;
   margin-bottom: 1.45rem;
-  color: white;
+
   > div {
     padding: 1.45rem 0;
   }

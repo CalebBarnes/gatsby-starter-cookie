@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `Playground`,
+    title: `Logo`,
     description: `A simple Gatsby theme with my essentials preconfigured.`,
     author: `Caleb Barnes`,
   },

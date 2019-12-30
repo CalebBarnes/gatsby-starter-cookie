@@ -1,7 +1,8 @@
 import React from "react"
-import { Provider } from "urql"
-import { client } from "./client"
+import { Provider, createClient } from "urql"
 
-const UrqlProvider = props => <Provider value={client} {...props} />
+const client = createClient({
+  url: "https://calebbarnes-4dbaeb.easywp.com/graphql",
+})
 
-export default UrqlProvider
+export default props => <Provider value={client} {...props} />

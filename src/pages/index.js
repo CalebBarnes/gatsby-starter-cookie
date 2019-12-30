@@ -6,19 +6,11 @@ import gql from "graphql-tag"
 
 import SEO from "../components/seo"
 
+import Button from "../components/button"
+
 const IndexPage = () => {
-  const testQuery = gql`
+  const postsQuery = gql`
     query {
-      users {
-        nodes {
-          userId
-          username
-          nickname
-          firstName
-          lastName
-          email
-        }
-      }
       posts {
         nodes {
           author {
@@ -34,16 +26,15 @@ const IndexPage = () => {
   `
 
   const [{ fetching, stale, data, error }, executeQuery] = useQuery({
-    query: testQuery,
+    query: postsQuery,
   })
 
-  console.log({ fetching, stale, data, error })
+  console.log({ fetching })
 
   return (
     <Container>
       <SEO title="Home" />
 
-      {fetching && <p>Loading...</p>}
       {data?.posts && <h3>Posts:</h3>}
       {data &&
         data.posts &&
@@ -58,25 +49,13 @@ const IndexPage = () => {
           </div>
         ))}
 
-      {data?.users && <h3>Users:</h3>}
-      {data &&
-        data.users &&
-        data.users.nodes.map((user, index) => (
-          <div key={index}>
-            <p>
-              {user.userId}: {user.firstName} {user.lastName}
-            </p>
-            <p>{user.nickname}</p>
-            <p>{user.email}</p>
-            <p>{user.email}</p>
-          </div>
-        ))}
-
-      <button
-        onClick={() => executeQuery({ requestPolicy: "cache-and-network" })}
+      <Button
+        loading={fetching}
+        variant="action"
+        onClick={() => executeQuery({ requestPolicy: "network-only" })}
       >
-        Query with urql
-      </button>
+        Query fresh data
+      </Button>
     </Container>
   )
 }
