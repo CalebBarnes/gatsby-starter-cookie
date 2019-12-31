@@ -21,8 +21,12 @@ const Component = props => {
 export default Component
 
 const Footer = styled.footer`
-  background: rebeccapurple;
+  margin-top: 80px;
+  background: #202020;
   color: white;
+  a {
+    color: inherit;
+  }
   p {
     margin: 0;
     padding: 10px;
