@@ -29,8 +29,6 @@ const IndexPage = () => {
     query: postsQuery,
   })
 
-  console.log({ fetching })
-
   return (
     <Container>
       <SEO title="Home" />

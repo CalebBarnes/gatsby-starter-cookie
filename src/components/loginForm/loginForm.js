@@ -9,6 +9,8 @@ import sanitizeErrors from "./sanitizeErrors"
 import Button from "../button"
 import { useStore } from "../../state/store"
 
+import { loginMutation } from "../../auth/mutationLoginUser"
+
 export default () => {
   // dispatch to manage login state & store user info
   const [, dispatch] = useStore()
@@ -18,42 +20,6 @@ export default () => {
 
   // 'formError' for managing the forms error messages
   const [formError, setFormError] = useState("")
-
-  // WP GraphQL mutation to log in to wordpress
-  const loginMutation = gql`
-    mutation LoginMutation($username: String!, $password: String!) {
-      login(
-        input: {
-          username: $username
-          password: $password
-          clientMutationId: "KgsyASs"
-        }
-      ) {
-        clientMutationId
-        authToken
-        refreshToken
-        user {
-          id
-          email
-          firstName
-          lastName
-          username
-          avatar {
-            url
-            isRestricted
-          }
-          capKey
-          capabilities
-          description
-          isJwtAuthSecretRevoked
-          jwtAuthExpiration
-          locale
-          slug
-          userId
-        }
-      }
-    }
-  `
 
   // 'useMutation' from 'urql' - react hooks implementation
   const [res, executeLogin] = useMutation(loginMutation)
@@ -80,7 +46,7 @@ export default () => {
     // execute login mutation with the input values from the state
     executeLogin({ username, password })
       .then(response => {
-        console.log("then", response)
+        // console.log("then", response)
         const { error, data } = response
 
         if (error?.graphQLErrors) {

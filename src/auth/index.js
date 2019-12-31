@@ -7,8 +7,13 @@ const key = "test-555"
  * @param {object} data
  */
 export const setAuth = data => {
-  const { clientMutationId, authToken, refreshToken } = data?.login
-  setLocalStorage(key, { clientMutationId, authToken, refreshToken })
+  const {
+    clientMutationId,
+    authToken,
+    refreshToken,
+    user: { id },
+  } = data?.login
+  setLocalStorage(key, { clientMutationId, authToken, refreshToken, id })
 }
 
 /**

@@ -6,7 +6,6 @@ import Edges from "./edges"
 import Button from "./button"
 
 import { useStore } from "../state/store"
-
 import { logoutUser } from "./../auth"
 
 const Component = props => {

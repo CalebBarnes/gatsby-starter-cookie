@@ -5,8 +5,11 @@ import styled from "styled-components"
 import Header from "../components/header"
 import Footer from "../components/footer"
 import Edges from "../components/edges"
+import useAuthServices from "../auth/useAuthServices"
 
 export default ({ children }) => {
+  useAuthServices()
+
   return (
     <Container>
       <div>

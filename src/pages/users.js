@@ -26,7 +26,7 @@ const SecondPage = () => {
     query: usersQuery,
   })
 
-  console.log({ fetching, stale, data, error })
+  // console.log({ fetching, stale, data, error })
   return (
     <>
       <SEO title="Users" />
