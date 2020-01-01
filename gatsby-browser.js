@@ -1,7 +1,8 @@
 import React from "react"
+import { ApolloProvider } from "@apollo/react-hooks"
 
-import UrqlProvider from "./src/urql"
+import { client } from "./src/apollo"
 
 export const wrapRootElement = ({ element }) => (
-  <UrqlProvider children={element} />
+  <ApolloProvider client={client}>{element}</ApolloProvider>
 )

@@ -1,15 +1,16 @@
 import React from "react"
 import styled from "styled-components"
-import { useQuery } from "urql"
+import { useQuery } from "../apollo"
+
 import Parser from "html-react-parser"
-import gql from "graphql-tag"
+import { gql } from "apollo-boost"
 
 import SEO from "../components/seo"
 
 import Button from "../components/button"
 
 const IndexPage = () => {
-  const postsQuery = gql`
+  const POSTS = gql`
     query {
       posts {
         nodes {
@@ -25,15 +26,22 @@ const IndexPage = () => {
     }
   `
 
-  const [{ fetching, stale, data, error }, executeQuery] = useQuery({
-    query: postsQuery,
-  })
+  const { data, error, loading, refetch } = useQuery(POSTS)
 
   return (
     <Container>
       <SEO title="Home" />
 
-      {data?.posts && <h3>Posts:</h3>}
+      {error && <p>{error.message}</p>}
+
+      <span style={{ display: "flex", alignItems: "flex-start" }}>
+        {data?.posts && <h1 style={{ marginRight: "25px" }}>Posts</h1>}
+
+        <Button loading={true} variant="action" onClick={() => refetch()}>
+          Refresh Posts
+        </Button>
+      </span>
+
       {data &&
         data.posts &&
         data.posts.nodes.map((post, index) => (
@@ -46,14 +54,6 @@ const IndexPage = () => {
             </p>
           </div>
         ))}
-
-      <Button
-        loading={fetching}
-        variant="action"
-        onClick={() => executeQuery({ requestPolicy: "network-only" })}
-      >
-        Query fresh data
-      </Button>
     </Container>
   )
 }

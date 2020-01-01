@@ -1,15 +1,15 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 
-import { useMutation } from "urql"
-import gql from "graphql-tag"
+import { useMutation } from "@apollo/react-hooks"
+import { gql } from "apollo-boost"
 
 import { setAuth, getAuth } from "../../auth"
 import sanitizeErrors from "./sanitizeErrors"
 import Button from "../button"
 import { useStore } from "../../state/store"
 
-import { loginMutation } from "../../auth/mutationLoginUser"
+import { LOGIN_USER } from "../../auth/mutationLoginUser"
 
 export default () => {
   // dispatch to manage login state & store user info
@@ -21,8 +21,7 @@ export default () => {
   // 'formError' for managing the forms error messages
   const [formError, setFormError] = useState("")
 
-  // 'useMutation' from 'urql' - react hooks implementation
-  const [res, executeLogin] = useMutation(loginMutation)
+  const [executeLogin, res] = useMutation(LOGIN_USER)
   // console.log({ ...res })
 
   // control the form input values with state
@@ -44,9 +43,8 @@ export default () => {
     }
 
     // execute login mutation with the input values from the state
-    executeLogin({ username, password })
+    executeLogin({ variables: { username, password } })
       .then(response => {
-        // console.log("then", response)
         const { error, data } = response
 
         if (error?.graphQLErrors) {

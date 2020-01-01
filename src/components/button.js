@@ -1,7 +1,7 @@
 import React from "react"
 import styled, { css } from "styled-components"
 import { Link } from "gatsby"
-import { PulseLoader } from "react-spinners"
+import * as Loaders from "react-spinners"
 
 export default props => {
   const {
@@ -13,6 +13,7 @@ export default props => {
     href,
     children,
     variant,
+    loader = "PulseLoader",
     ...rest
   } = props
 
@@ -31,35 +32,44 @@ export default props => {
     }
   }
 
+  const Loader = Loaders[loader]
+
+  console.log({ Loaders })
+  console.log({ Loader })
+
   return (
-    <Container {...rest}>
-      <Button
-        value={value}
-        type={type}
-        form={form}
-        variant={variant}
-        to={to}
-        disabled={disabled}
-      >
-        <span className="children">{children}</span>
-        {props?.loading && (
-          <Loader className="pulse-loader">
-            <PulseLoader size={5} sizeUnit="px" color={loaderColor()} />
-          </Loader>
-        )}
-      </Button>
-    </Container>
+    <Button
+      {...rest}
+      value={value}
+      type={type}
+      form={form}
+      variant={variant}
+      to={to}
+      disabled={disabled}
+    >
+      <span className="children">{children}</span>
+      {props?.loading && (
+        <LoaderContainer className="pulse-loader">
+          <Loader size={5} sizeUnit="px" color={loaderColor()} />
+          {/* <PulseLoader size={5} sizeUnit="px" color={loaderColor()} /> */}
+        </LoaderContainer>
+      )}
+    </Button>
   )
 }
 
-const Loader = styled.div`
+const LoaderContainer = styled.div`
   position: absolute;
   left: calc(50% - 13.5px);
   top: calc(50% - 13px);
 `
 
-const Container = styled(({ loading, ...rest }) => <div {...rest} />)`
+const buttonStyles = css`
+  border-radius: 3px;
   display: inline-block;
+  vertical-align: center;
+  position: relative;
+  cursor: pointer;
   ${({ loading }) =>
     loading
       ? css`
@@ -78,14 +88,6 @@ const Container = styled(({ loading, ...rest }) => <div {...rest} />)`
             opacity: 1;
           }
         `}
-`
-
-const buttonStyles = css`
-  border-radius: 3px;
-  display: inline-block;
-  vertical-align: center;
-  position: relative;
-  cursor: pointer;
 
   ${({ tall }) =>
     tall

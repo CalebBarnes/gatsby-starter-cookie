@@ -5,7 +5,9 @@
   "version": "0.0.1",
   "author": "Caleb Barnes <caleb.d.barnes@gmail.com>",
   "dependencies": {
+    "@apollo/react-hooks": "^3.1.3",
     "@babel/plugin-proposal-optional-chaining": "^7.6.0",
+    "apollo-boost": "^0.4.7",
     "babel-preset-gatsby": "^0.2.17",
     "case-sensitive-paths-webpack-plugin": "^2.2.0",
     "dotenv": "^8.2.0",
@@ -21,17 +23,16 @@
     "gatsby-source-filesystem": "^2.1.29",
     "gatsby-transformer-sharp": "^2.2.20",
     "graphql": "^14.5.8",
-    "graphql-tag": "^2.10.1",
     "html-react-parser": "^0.10.0",
     "isomorphic-fetch": "^2.2.1",
+    "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-helmet": "^5.2.1",
     "react-spinners": "^0.6.1",
     "styled-components": "^4.4.0",
-    "styled-media-query": "^2.1.2",
-    "urql": "^1.7.0"
+    "styled-media-query": "^2.1.2"
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.10.6",
