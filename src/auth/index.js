@@ -29,6 +29,11 @@ export const getAuth = () => {
  * @param {function} dispatch
  */
 export const logoutUser = dispatch => {
+  if (typeof dispatch !== "function") {
+    console.warn(`logoutUser requires a the 'dispatch' function`)
+    return
+  }
+
   // delete auth keys from local storage
   setLocalStorage(key, null)
 

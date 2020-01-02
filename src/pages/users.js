@@ -11,6 +11,9 @@ const SecondPage = () => {
     query {
       users {
         nodes {
+          avatar {
+            url
+          }
           id
           userId
           username
@@ -40,7 +43,11 @@ const SecondPage = () => {
         data?.users?.nodes?.map((user, index) => {
           return (
             <p key={user.id}>
-              {user.userId}: {user.firstName} {user.lastName}
+              <img
+                style={{ height: "50px", borderRadius: "100%" }}
+                src={user?.avatar?.url}
+              />
+              {user.userId}: {user.firstName} {user.lastName}{" "}
             </p>
           )
         })}

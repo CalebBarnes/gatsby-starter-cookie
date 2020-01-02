@@ -26,7 +26,7 @@ export const useFetch = (endpoint, args = {}) => {
   // console.log("useFetchargs:", { args })
   const [state, setState] = useState(initialState)
 
-  const myHeaders = token
+  const authHeaders = token
     ? { ...headers, authorization: `Bearer ${token}` }
     : headers
 
@@ -39,7 +39,7 @@ export const useFetch = (endpoint, args = {}) => {
     })
 
     await fetch(endpoint, {
-      headers: myHeaders,
+      headers: authHeaders,
       method,
       body,
     })

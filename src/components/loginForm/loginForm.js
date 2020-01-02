@@ -2,14 +2,13 @@ import React, { useState } from "react"
 import styled from "styled-components"
 
 import { useMutation } from "@apollo/react-hooks"
-import { gql } from "apollo-boost"
 
-import { setAuth, getAuth } from "../../auth"
+import { setAuth, logoutUser } from "../../auth"
 import sanitizeErrors from "./sanitizeErrors"
 import Button from "../button"
 import { useStore } from "../../state/store"
 
-import { LOGIN_USER } from "../../auth/mutationLoginUser"
+import { LOGIN_USER } from "../../apollo/mutation"
 
 export default () => {
   // dispatch to manage login state & store user info
@@ -42,35 +41,34 @@ export default () => {
       return
     }
 
+    // remove any existing auth tokens from local storage
+    logoutUser(dispatch)
+
     // execute login mutation with the input values from the state
     executeLogin({ variables: { username, password } })
-      .then(response => {
-        const { error, data } = response
-
-        if (error?.graphQLErrors) {
-          // handle form errors
-          error.graphQLErrors.map(err =>
-            setFormError(sanitizeErrors(err.message))
-          )
-          return
-        }
-
-        if (data && data.login) {
+      .then(res => {
+        if (res?.data?.login) {
           // store the auth/refresh tokens
-          setAuth(data)
+          setAuth(res.data)
 
           // store user info in context store
-          dispatch({ type: "SET_USER_INFO", payload: data.login.user })
+          dispatch({ type: "SET_USER_INFO", payload: res.data?.login?.user })
 
           // update logged in state
           dispatch({ type: "SET_LOGGED_IN", payload: true })
         }
       })
       .catch(error => {
-        console.log({ error })
-        setFormError(
-          "Something went wrong. Please try again later or contact support."
-        )
+        if (error?.graphQLErrors) {
+          // handle form errors
+          error.graphQLErrors.map(err =>
+            setFormError(sanitizeErrors(err?.message))
+          )
+        } else {
+          setFormError(
+            "Something went wrong. Please try again later or contact support."
+          )
+        }
       })
   }
 

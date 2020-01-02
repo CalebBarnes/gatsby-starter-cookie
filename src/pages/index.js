@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { useQuery } from "../apollo"
+import moment from "moment"
 
 import Parser from "html-react-parser"
 import { gql } from "apollo-boost"
@@ -15,6 +16,9 @@ const IndexPage = () => {
       posts {
         nodes {
           author {
+            avatar {
+              url
+            }
             firstName
             lastName
           }
@@ -35,9 +39,9 @@ const IndexPage = () => {
       {error && <p>{error.message}</p>}
 
       <span style={{ display: "flex", alignItems: "flex-start" }}>
-        {data?.posts && <h1 style={{ marginRight: "25px" }}>Posts</h1>}
+        <h1 style={{ marginRight: "25px" }}>Posts</h1>
 
-        <Button loading={true} variant="action" onClick={() => refetch()}>
+        <Button loading={loading} variant="action" onClick={() => refetch()}>
           Refresh Posts
         </Button>
       </span>
@@ -48,9 +52,10 @@ const IndexPage = () => {
           <div key={index}>
             <h1>{post.title}</h1>
             {Parser(post.content)}
-            <p>{post.date}</p>
+            <p>{moment(post.date).format("YYYY MMM Do")}</p>
             <p>
-              Posted by: {post?.author?.firstName} {post?.author?.lastName}
+              Posted by: {post?.author?.firstName} {post?.author?.lastName}{" "}
+              <img style={{ height: "30px" }} src={post?.author?.avatar?.url} />
             </p>
           </div>
         ))}

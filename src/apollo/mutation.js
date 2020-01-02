@@ -1,6 +1,5 @@
 import gql from "graphql-tag"
 
-// WP GraphQL mutation to log in to wordpress
 export const LOGIN_USER = gql`
   mutation LoginMutation($username: String!, $password: String!) {
     login(
@@ -32,6 +31,20 @@ export const LOGIN_USER = gql`
         slug
         userId
       }
+    }
+  }
+`
+
+export const REFRESH_TOKEN = gql`
+  mutation refreshToken($jwtRefreshToken: String!, $clientMutationId: String!) {
+    refreshJwtAuthToken(
+      input: {
+        jwtRefreshToken: $jwtRefreshToken
+        clientMutationId: $clientMutationId
+      }
+    ) {
+      authToken
+      clientMutationId
     }
   }
 `

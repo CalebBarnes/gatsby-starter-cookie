@@ -8,6 +8,8 @@ import Button from "./button"
 import { useStore } from "../state/store"
 import { logoutUser } from "./../auth"
 
+import ProfileBar from "./ProfileBar"
+
 const Component = props => {
   const {
     site: {
@@ -23,7 +25,7 @@ const Component = props => {
     }
   `)
 
-  const [{ isLoggedIn, user }, dispatch] = useStore()
+  const [{ isLoggedIn }] = useStore()
 
   return (
     <Header {...props}>
@@ -48,9 +50,7 @@ const Component = props => {
                 </>
               )}
 
-              {isLoggedIn && (
-                <Button onClick={() => logoutUser(dispatch)}>Log out</Button>
-              )}
+              {isLoggedIn && <ProfileBar />}
             </RightMenu>
           </Nav>
         </Flex>
@@ -73,7 +73,7 @@ const LeftMenu = styled.div`
   display: flex;
 `
 
-const Nav = styled.div`
+const Nav = styled.nav`
   display: flex;
   justify-content: flex-end;
   width: 100%;

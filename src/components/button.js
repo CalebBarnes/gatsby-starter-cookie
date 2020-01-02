@@ -14,6 +14,7 @@ export default props => {
     children,
     variant,
     loader = "PulseLoader",
+    loading,
     ...rest
   } = props
 
@@ -34,12 +35,10 @@ export default props => {
 
   const Loader = Loaders[loader]
 
-  console.log({ Loaders })
-  console.log({ Loader })
-
   return (
     <Button
       {...rest}
+      loading={loading ? 1 : 0}
       value={value}
       type={type}
       form={form}
@@ -51,7 +50,6 @@ export default props => {
       {props?.loading && (
         <LoaderContainer className="pulse-loader">
           <Loader size={5} sizeUnit="px" color={loaderColor()} />
-          {/* <PulseLoader size={5} sizeUnit="px" color={loaderColor()} /> */}
         </LoaderContainer>
       )}
     </Button>

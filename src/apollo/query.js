@@ -1,7 +1,7 @@
 import gql from "graphql-tag"
 
-export const queryUser = gql`
-  query UserQuery {
+export const VIEWER = gql`
+  query ViewerQuery {
     viewer {
       email
       firstName
