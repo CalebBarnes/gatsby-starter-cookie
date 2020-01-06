@@ -6,6 +6,8 @@ import SEO from "../components/seo"
 
 import { useStore } from "../state/store"
 
+import RegisterForm from "../components/registerForm"
+
 const LoginPage = () => {
   const [{ isLoggedIn }] = useStore()
 
@@ -15,6 +17,8 @@ const LoginPage = () => {
     <Container>
       <SEO title="Create an account" />
       <h1>Get started</h1>
+
+      <RegisterForm />
     </Container>
   )
 }

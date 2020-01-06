@@ -1,32 +1,20 @@
 import React from "react"
-
-import { useQuery } from "../apollo"
-import { gql } from "apollo-boost"
+import { useQuery } from "@apollo/react-hooks"
+import gql from "graphql-tag"
 
 import SEO from "../components/seo"
 import Button from "../components/button"
 
-const SecondPage = () => {
-  const USERS = gql`
-    query {
-      users {
-        nodes {
-          avatar {
-            url
-          }
-          id
-          userId
-          username
-          nickname
-          firstName
-          lastName
-          email
-        }
-      }
-    }
-  `
+import { USERS_QUERY } from "../apollo/query"
 
-  const { loading, error, data, refetch } = useQuery(USERS)
+const SecondPage = () => {
+  const { loading, error, data, refetch } = useQuery(USERS_QUERY, {
+    onError(err) {
+      console.log({ err })
+    },
+  })
+
+  console.log({ data })
 
   return (
     <>
@@ -39,7 +27,7 @@ const SecondPage = () => {
         </Button>
       </span>
       {error && <p>{error.message}</p>}
-      {data?.users &&
+      {/* {data?.users?.edges &&
         data?.users?.nodes?.map((user, index) => {
           return (
             <p key={user.id}>
@@ -50,7 +38,7 @@ const SecondPage = () => {
               {user.userId}: {user.firstName} {user.lastName}{" "}
             </p>
           )
-        })}
+        })} */}
     </>
   )
 }

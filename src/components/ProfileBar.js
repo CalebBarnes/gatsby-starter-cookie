@@ -5,7 +5,7 @@ import { useStore } from "../state/store"
 
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown"
 
-import { logoutUser } from "./../auth"
+import { logoutUser, updateToken } from "./../auth"
 
 import Button from "./button"
 
@@ -25,12 +25,15 @@ export default () => {
       aria-controls="simple-menu"
       aria-haspopup="true"
     >
-      <Avatar src={avatar.url} />
+      {avatar?.url && <Avatar src={avatar.url} />}
       {username}
 
       <ArrowDropDownIcon />
 
       <Menu open={open}>
+        <MenuItem onClick={() => updateToken("my-invalid-token")}>
+          Spoof authToken
+        </MenuItem>
         <MenuItem onClick={() => logoutUser(dispatch)}>Log out</MenuItem>
       </Menu>
     </ProfileBar>

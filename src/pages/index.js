@@ -1,10 +1,9 @@
 import React from "react"
 import styled from "styled-components"
-import { useQuery } from "../apollo"
+import { useQuery } from "@apollo/react-hooks"
 import moment from "moment"
-
+import gql from "graphql-tag"
 import Parser from "html-react-parser"
-import { gql } from "apollo-boost"
 
 import SEO from "../components/seo"
 
@@ -41,7 +40,11 @@ const IndexPage = () => {
       <span style={{ display: "flex", alignItems: "flex-start" }}>
         <h1 style={{ marginRight: "25px" }}>Posts</h1>
 
-        <Button loading={loading} variant="action" onClick={() => refetch()}>
+        <Button
+          loading={loading}
+          variant="action"
+          onClick={() => refetch({ fetchPolicy: "network-only" })}
+        >
           Refresh Posts
         </Button>
       </span>

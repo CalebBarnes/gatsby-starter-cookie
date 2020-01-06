@@ -2,6 +2,7 @@ import React, { createContext, useContext, useReducer } from "react"
 
 const initialState = {
   isLoggedIn: false,
+  isMenuOpen: false,
   user: null,
 }
 
@@ -17,6 +18,18 @@ const reducer = (state, action) => {
       return {
         ...state,
         user: action.payload,
+      }
+
+    case "SET_MENU":
+      return {
+        ...state,
+        isMenuOpen: action.payload,
+      }
+
+    case "TOGGLE_MENU":
+      return {
+        ...state,
+        isMenuOpen: !state.isMenuOpen,
       }
 
     default:

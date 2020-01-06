@@ -1,11 +1,10 @@
 import isBrowser from "./isBrowser"
 
 /**
- *
+ * Store data in the local storage
  * @param {string} key
  * @param {any} value
  */
-
 const setLocalStorage = (key, value) => {
   if (!isBrowser) {
     return

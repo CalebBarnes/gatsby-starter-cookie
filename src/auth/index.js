@@ -7,13 +7,14 @@ const key = "test-555"
  * @param {object} data
  */
 export const setAuth = data => {
-  const {
+  const { clientMutationId, authToken, refreshToken, user, id } = data
+
+  setLocalStorage(key, {
     clientMutationId,
     authToken,
     refreshToken,
-    user: { id },
-  } = data?.login
-  setLocalStorage(key, { clientMutationId, authToken, refreshToken, id })
+    id: id || user?.id,
+  })
 }
 
 /**
@@ -21,6 +22,15 @@ export const setAuth = data => {
  */
 export const getAuth = () => {
   return getLocalStorage(key)
+}
+
+/**
+ * Updates the auth token in the local storage
+ * @param {string} authToken
+ */
+export const updateToken = authToken => {
+  const auth = getAuth()
+  setAuth({ ...auth, authToken })
 }
 
 /**

@@ -1,6 +1,6 @@
 import gql from "graphql-tag"
 
-export const VIEWER = gql`
+export const VIEWER_QUERY = gql`
   query ViewerQuery {
     viewer {
       email
@@ -21,3 +21,4 @@ export const VIEWER = gql`
     }
   }
 `
+export default VIEWER_QUERY

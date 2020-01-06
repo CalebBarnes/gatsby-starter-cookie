@@ -1,12 +1,12 @@
 import gql from "graphql-tag"
 
-export const LOGIN_USER = gql`
+export const LOGIN_USER_MUTATION = gql`
   mutation LoginMutation($username: String!, $password: String!) {
     login(
       input: {
         username: $username
         password: $password
-        clientMutationId: "KgsyASs"
+        clientMutationId: "bingo"
       }
     ) {
       clientMutationId
@@ -35,16 +35,4 @@ export const LOGIN_USER = gql`
   }
 `
 
-export const REFRESH_TOKEN = gql`
-  mutation refreshToken($jwtRefreshToken: String!, $clientMutationId: String!) {
-    refreshJwtAuthToken(
-      input: {
-        jwtRefreshToken: $jwtRefreshToken
-        clientMutationId: $clientMutationId
-      }
-    ) {
-      authToken
-      clientMutationId
-    }
-  }
-`
+export default LOGIN_USER_MUTATION

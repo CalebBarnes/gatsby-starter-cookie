@@ -8,8 +8,14 @@ import Edges from "../components/edges"
 
 import useAuthServices from "../auth/useAuthServices"
 
+import { useStore } from "../state/store"
+
 export default ({ children }) => {
   useAuthServices(children?.props?.path)
+
+  const [state] = useStore()
+
+  console.log({ ...state })
 
   return (
     <Container>

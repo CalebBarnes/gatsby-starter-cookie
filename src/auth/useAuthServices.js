@@ -1,23 +1,20 @@
 import React, { useEffect } from "react"
-import { useQuery, useMutation, useLazyQuery } from "../apollo"
+import { useQuery, useMutation, useLazyQuery } from "@apollo/react-hooks"
 
 import { useStore } from "../state/store"
-import { getAuth, logoutUser } from "./"
+import { getAuth, logoutUser, updateToken } from "./"
 
-import { VIEWER } from "../apollo/query"
-import { REFRESH_TOKEN } from "../apollo/mutation"
+import { VIEWER_QUERY } from "../apollo/query"
+import { REFRESH_TOKEN_MUTATION } from "../apollo/mutation"
 
 export const useAuthServices = path => {
   const [{ isLoggedIn }, dispatch] = useStore()
 
   const authStorage = getAuth()
-  const id = authStorage?.id
 
   const [executeViewerQuery, { data, error, loading, called }] = useLazyQuery(
-    VIEWER,
+    VIEWER_QUERY,
     {
-      variables: { id },
-      skip: !id,
       onCompleted(response) {
         const { viewer } = response || {}
         // store user info in context store
@@ -35,9 +32,13 @@ export const useAuthServices = path => {
           })
         }
       },
-      onError(error) {
-        console.log({ error })
-        logoutUser(dispatch)
+      onError(err) {
+        console.log({ err })
+
+        // if invalid authToken
+        // execute refresh auth token
+        // instead of logging out user
+        // logoutUser(dispatch)
       },
     }
   )
@@ -52,10 +53,39 @@ export const useAuthServices = path => {
     executeViewerQuery()
   }
 
-  useEffect(() => {
-    console.log({ path })
+  const [executeTokenRefresh] = useMutation(REFRESH_TOKEN_MUTATION, {
+    onCompleted(response) {
+      console.log({ tokenRefreshResponse: response })
+      if (response?.refreshJwtAuthToken?.authToken) {
+        updateToken(response?.refreshJwtAuthToken?.authToken)
+      }
+    },
+    onError(error) {
+      console.log({ error })
+      // invalid token
+      if (error?.networkError?.statusCode === 403) {
+        if (error?.networkError?.result?.data?.refreshJwtAuthToken?.authToken) {
+          // new auth token recieved
+          updateToken(
+            error.networkError.result.data.refreshJwtAuthToken.authToken
+          )
+          // get user
+          executeViewerQuery()
+        } else {
+          logoutUser(dispatch)
+        }
+      }
+    },
+  })
 
-    console.log("do refreshToken here")
+  useEffect(() => {
+    if (authStorage?.authToken && authStorage?.refreshToken) {
+      executeTokenRefresh({
+        variables: {
+          refreshToken: authStorage?.refreshToken,
+        },
+      })
+    }
   }, [path])
 }
 

@@ -1,9 +1,10 @@
 import isBrowser from "./isBrowser"
 
 /**
+ * Returns some data from the local storage
  * @param {string} key
+ * @returns {object} object
  */
-
 const getLocalStorage = key => {
   if (!isBrowser) {
     return
