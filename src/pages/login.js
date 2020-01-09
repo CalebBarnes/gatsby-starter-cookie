@@ -6,10 +6,14 @@ import SEO from "../components/seo"
 
 import LoginForm from "../components/loginForm"
 
-import { useStore } from "../state/store"
+import { useStore } from "../store"
 
 const LoginPage = () => {
-  const [{ isLoggedIn }] = useStore()
+  const [
+    {
+      userState: { isLoggedIn },
+    },
+  ] = useStore()
 
   isLoggedIn && navigate("/")
 

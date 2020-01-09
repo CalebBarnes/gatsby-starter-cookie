@@ -4,10 +4,14 @@ import { navigate } from "gatsby"
 
 import SEO from "../components/seo"
 
-import { useStore } from "../state/store"
+import { useStore } from "../store"
 
 const LoginPage = () => {
-  const [{ isLoggedIn }] = useStore()
+  const [
+    {
+      userState: { isLoggedIn },
+    },
+  ] = useStore()
 
   isLoggedIn && navigate("/")
 

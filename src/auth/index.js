@@ -1,19 +1,19 @@
 import { setLocalStorage, getLocalStorage } from "../utils"
 
-const key = "test-555"
+const key = "appTokens"
 
 /**
  * Stores auth tokens in local storage
  * @param {object} data
  */
 export const setAuth = data => {
-  const {
+  const { clientMutationId, authToken, refreshToken, id, user } = data || {}
+  setLocalStorage(key, {
     clientMutationId,
     authToken,
     refreshToken,
-    user: { id },
-  } = data?.login
-  setLocalStorage(key, { clientMutationId, authToken, refreshToken, id })
+    id: id || user?.id,
+  })
 }
 
 /**
@@ -24,13 +24,22 @@ export const getAuth = () => {
 }
 
 /**
+ * Updates the auth token in the local storage
+ * @param {string} authToken
+ */
+export const updateToken = authToken => {
+  const auth = getAuth()
+  setAuth({ ...auth, authToken })
+}
+
+/**
  * Deletes auth tokens from local storage
- * and updates the store user data and logged in state
+ * and updates the context user data and logged in state
  * @param {function} dispatch
  */
 export const logoutUser = dispatch => {
   if (typeof dispatch !== "function") {
-    console.warn(`logoutUser requires a the 'dispatch' function`)
+    console.error(`logoutUser requires the 'dispatch' function`)
     return
   }
 

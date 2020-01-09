@@ -1,7 +1,7 @@
 import React from "react"
 
-import { useQuery } from "../apollo"
-import { gql } from "apollo-boost"
+import { useQuery } from "@apollo/react-hooks"
+import gql from "graphql-tag"
 
 import SEO from "../components/seo"
 import Button from "../components/button"

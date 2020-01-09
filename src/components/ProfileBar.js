@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import styled, { css } from "styled-components"
 
-import { useStore } from "../state/store"
+import { useStore } from "../store"
 
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown"
 
@@ -11,7 +11,12 @@ import Button from "./button"
 
 export default () => {
   const [open, setOpen] = useState(null)
-  const [{ user }, dispatch] = useStore()
+  const [
+    {
+      userState: { user },
+    },
+    dispatch,
+  ] = useStore()
 
   const { username, avatar } = user || {}
 

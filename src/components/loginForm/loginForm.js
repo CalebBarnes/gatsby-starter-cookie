@@ -6,9 +6,9 @@ import { useMutation } from "@apollo/react-hooks"
 import { setAuth, logoutUser } from "../../auth"
 import sanitizeErrors from "./sanitizeErrors"
 import Button from "../button"
-import { useStore } from "../../state/store"
+import { useStore } from "../../store"
 
-import { LOGIN_USER } from "../../apollo/mutation"
+import { LOGIN_USER_MUTATION } from "../../apollo/mutation"
 
 export default () => {
   // dispatch to manage login state & store user info
@@ -20,7 +20,7 @@ export default () => {
   // 'formError' for managing the forms error messages
   const [formError, setFormError] = useState("")
 
-  const [executeLogin, res] = useMutation(LOGIN_USER)
+  const [executeLogin, res] = useMutation(LOGIN_USER_MUTATION)
   // console.log({ ...res })
 
   // control the form input values with state
@@ -96,7 +96,7 @@ export default () => {
       </form>
 
       <Button
-        loading={res.fetching}
+        loading={res.loading}
         variant="action"
         type="submit"
         form="loginForm"

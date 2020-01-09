@@ -1,10 +1,10 @@
 import React from "react"
 import styled from "styled-components"
-import { useQuery } from "../apollo"
+import { useQuery } from "@apollo/react-hooks"
 import moment from "moment"
 
 import Parser from "html-react-parser"
-import { gql } from "apollo-boost"
+import gql from "graphql-tag"
 
 import SEO from "../components/seo"
 

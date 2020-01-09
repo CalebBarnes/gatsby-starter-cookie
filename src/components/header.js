@@ -5,7 +5,7 @@ import { useStaticQuery, graphql, Link } from "gatsby"
 import Edges from "./edges"
 import Button from "./button"
 
-import { useStore } from "../state/store"
+import { useStore } from "../store"
 import { logoutUser } from "./../auth"
 
 import ProfileBar from "./ProfileBar"
@@ -25,7 +25,11 @@ const Component = props => {
     }
   `)
 
-  const [{ isLoggedIn }] = useStore()
+  const [
+    {
+      userState: { isLoggedIn },
+    },
+  ] = useStore()
 
   return (
     <Header {...props}>

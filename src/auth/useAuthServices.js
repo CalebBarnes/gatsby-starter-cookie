@@ -1,61 +1,84 @@
-import React, { useEffect } from "react"
-import { useQuery, useMutation, useLazyQuery } from "../apollo"
+import { useEffect } from "react"
+import { useMutation, useLazyQuery } from "@apollo/react-hooks"
 
-import { useStore } from "../state/store"
-import { getAuth, logoutUser } from "./"
+import { useStore } from "../store"
+import { getAuth, updateToken, logoutUser } from "./"
 
-import { VIEWER } from "../apollo/query"
-import { REFRESH_TOKEN } from "../apollo/mutation"
+import { VIEWER_QUERY } from "../apollo/query"
+import { REFRESH_TOKEN_MUTATION } from "../apollo/mutation"
 
 export const useAuthServices = path => {
-  const [{ isLoggedIn }, dispatch] = useStore()
+  const [
+    {
+      userState: { isLoggedIn },
+    },
+    dispatch,
+  ] = useStore()
 
   const authStorage = getAuth()
-  const id = authStorage?.id
 
-  const [executeViewerQuery, { data, error, loading, called }] = useLazyQuery(
-    VIEWER,
+  // executeViewerQuery fetches the authed user on first load
+  const [executeViewerQuery, { called: viewerCalled }] = useLazyQuery(
+    VIEWER_QUERY,
     {
-      variables: { id },
-      skip: !id,
-      onCompleted(response) {
+      skip: isLoggedIn,
+      onCompleted: response => {
+        // console.log({ executeViewerResponse: response })
         const { viewer } = response || {}
-        // store user info in context store
+        // store user info in context
 
         if (viewer) {
           dispatch({
             type: "SET_USER_INFO",
             payload: viewer,
           })
-
           // update logged in state
           dispatch({
             type: "SET_LOGGED_IN",
             payload: true,
           })
+          // close login dialog if open
+          dispatch({
+            type: "SET_LOGIN_DIALOG",
+            payload: false,
+          })
         }
       },
-      onError(error) {
-        console.log({ error })
+      onError: error => {
+        console.log({ viewerQueryError: error })
         logoutUser(dispatch)
       },
     }
   )
-
+  // if no user in context & authToken exists
   if (
     !isLoggedIn &&
-    authStorage?.id &&
     authStorage?.authToken &&
     authStorage?.refreshToken &&
-    !called
+    !viewerCalled
   ) {
     executeViewerQuery()
   }
 
-  useEffect(() => {
-    console.log({ path })
+  // executeTokenRefresh fetches a new authToken on each page navigation
+  const [executeTokenRefresh] = useMutation(REFRESH_TOKEN_MUTATION, {
+    onCompleted: response => {
+      if (response?.refreshJwtAuthToken?.authToken) {
+        updateToken(response.refreshJwtAuthToken.authToken)
+      }
+    },
+    onError: error => {
+      console.log({ tokenRefreshError: error })
+      logoutUser(dispatch)
+    },
+  })
 
-    console.log("do refreshToken here")
+  useEffect(() => {
+    if (isLoggedIn && authStorage?.authToken && authStorage?.refreshToken) {
+      executeTokenRefresh({
+        variables: { refreshToken: authStorage.refreshToken },
+      })
+    }
   }, [path])
 }
 
