@@ -7,16 +7,16 @@ export const LOGIN_USER_MUTATION = gql`
   mutation LoginMutation($username: String!, $password: String!) {
     login(
       input: {
+        clientMutationId: "loginUserMutationId"
         username: $username
         password: $password
-        clientMutationId: "loginUserMutationId"
       }
     ) {
       clientMutationId
       authToken
       refreshToken
       user {
-        ...userFragment
+        ...UserFragment
       }
     }
   }

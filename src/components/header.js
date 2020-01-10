@@ -49,7 +49,7 @@ const Component = props => {
                   <NavButton to="/login">Log in</NavButton>
 
                   <NavButton variant="action" to="/register">
-                    Get started
+                    Sign up
                   </NavButton>
                 </>
               )}

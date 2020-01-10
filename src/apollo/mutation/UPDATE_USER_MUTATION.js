@@ -32,7 +32,7 @@ const UPDATE_USER_MUTATION = gql`
       }
     ) {
       user {
-        ...userFragment
+        ...UserFragment
       }
     }
   }

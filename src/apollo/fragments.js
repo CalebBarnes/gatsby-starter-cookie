@@ -1,7 +1,7 @@
 import gql from "graphql-tag"
 
 export const USER_FRAGMENT = gql`
-  fragment userFragment on User {
+  fragment UserFragment on User {
     id
     email
     firstName
@@ -18,5 +18,24 @@ export const USER_FRAGMENT = gql`
     locale
     slug
     userId
+  }
+`
+
+export const COMMENT_FIELDS = gql`
+  fragment CommentFields on Comment {
+    commentId
+    date
+    dateGmt
+    id
+    karma
+    content
+    approved
+    author {
+      __typename
+      ... on CommentAuthor {
+        name
+        id
+      }
+    }
   }
 `

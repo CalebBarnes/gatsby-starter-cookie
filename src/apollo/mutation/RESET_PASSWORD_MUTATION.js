@@ -19,7 +19,7 @@ export const RESET_PASSWORD_MUTATION = gql`
     ) {
       clientMutationId
       user {
-        ...userFragment
+        ...UserFragment
       }
     }
   }

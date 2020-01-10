@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { navigate } from "gatsby"
 
 import SEO from "../components/seo"
+import RegisterForm from "../components/registerForm"
 
 import { useStore } from "../store"
 
@@ -18,7 +19,8 @@ const LoginPage = () => {
   return (
     <Container>
       <SEO title="Create an account" />
-      <h1>Get started</h1>
+      <h1>Sign up</h1>
+      <RegisterForm />
     </Container>
   )
 }

@@ -1,36 +1,16 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 import { useQuery } from "@apollo/react-hooks"
 import moment from "moment"
 
 import Parser from "html-react-parser"
-import gql from "graphql-tag"
 
 import SEO from "../components/seo"
-
 import Button from "../components/button"
+import { POSTS_QUERY } from "../apollo/query"
 
 const IndexPage = () => {
-  const POSTS = gql`
-    query {
-      posts {
-        nodes {
-          author {
-            avatar {
-              url
-            }
-            firstName
-            lastName
-          }
-          title
-          date
-          content
-        }
-      }
-    }
-  `
-
-  const { data, error, loading, refetch } = useQuery(POSTS)
+  const { data, error, loading, refetch } = useQuery(POSTS_QUERY)
 
   return (
     <Container>
@@ -42,7 +22,7 @@ const IndexPage = () => {
         <h1 style={{ marginRight: "25px" }}>Posts</h1>
 
         <Button loading={loading} variant="action" onClick={() => refetch()}>
-          Refresh Posts
+          Refresh
         </Button>
       </span>
 

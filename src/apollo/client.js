@@ -10,6 +10,8 @@ import { getAuth } from "../auth"
 
 const uri = "https://calebbarnes-4dbaeb.easywp.com/graphql"
 
+// ! TODO: Check if authToken expired before each request
+
 const cache = new InMemoryCache()
 
 const authLink = setContext((_, { headers }) => {

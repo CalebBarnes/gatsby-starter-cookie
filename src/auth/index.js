@@ -7,6 +7,7 @@ const key = "appTokens"
  * @param {object} data
  */
 export const setAuth = data => {
+  console.log("setAuth", data)
   const { clientMutationId, authToken, refreshToken, id, user } = data || {}
   setLocalStorage(key, {
     clientMutationId,
@@ -18,6 +19,7 @@ export const setAuth = data => {
 
 /**
  * Returns the auth tokens from local storage
+ * @returns {object} Object
  */
 export const getAuth = () => {
   return getLocalStorage(key)

@@ -12,15 +12,17 @@ const REGISTER_USER_MUTATION = gql`
     $lastName: String
   ) {
     registerUser(
-      clientMutationId: "registerUserMutationId"
-      username: $username
-      email: $email
-      password: $password
-      firstName: $firstName
-      lastName: $lastName
+      input: {
+        clientMutationId: "registerUserMutationId"
+        username: $username
+        email: $email
+        password: $password
+        firstName: $firstName
+        lastName: $lastName
+      }
     ) {
       user {
-        ...userFragment
+        ...UserFragment
       }
     }
   }

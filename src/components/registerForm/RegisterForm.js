@@ -8,19 +8,23 @@ import sanitizeErrors from "../../utils/sanitizeErrors"
 import Button from "../button"
 import { useStore } from "../../store"
 
-import { LOGIN_USER_MUTATION } from "../../apollo/mutation"
+import { REGISTER_USER_MUTATION } from "../../apollo/mutation"
 
 export default () => {
   // dispatch to manage login state & store user info
   const [, dispatch] = useStore()
 
   // 'values' for controlling state of inputs
-  const [values, setValues] = useState({ username: "", password: "" })
+  const [values, setValues] = useState({
+    username: "",
+    email: "",
+    password: "",
+  })
 
   // 'formError' for managing the forms error messages
   const [formError, setFormError] = useState("")
 
-  const [executeLogin, res] = useMutation(LOGIN_USER_MUTATION)
+  const [executeRegisterUser, { loading }] = useMutation(REGISTER_USER_MUTATION)
   // console.log({ ...res })
 
   // control the form input values with state
@@ -33,10 +37,10 @@ export default () => {
     e.preventDefault()
     setFormError("")
 
-    const { username, password } = values
+    const { username, email, password } = values
 
     // prevent request with empty username or password
-    if (username === "" || password === "") {
+    if (username === "" || email === "" || password === "") {
       setFormError("Please enter a username and password")
       return
     }
@@ -45,18 +49,14 @@ export default () => {
     logoutUser(dispatch)
 
     // execute login mutation with the input values from the state
-    executeLogin({ variables: { username, password } })
+    executeRegisterUser({ variables: { username, email, password } })
       .then(res => {
-        console.log({ res })
-        if (res?.data?.login) {
-          // store the auth/refresh tokens
-          setAuth(res.data.login)
-
-          // store user info in context store
-          dispatch({ type: "SET_USER_INFO", payload: res.data?.login?.user })
-
-          // update logged in state
-          dispatch({ type: "SET_LOGGED_IN", payload: true })
+        // console.log(res)
+        if (res?.data?.registerUser?.user) {
+          // success. user registered.
+          setFormError(
+            `Account created. Email sent to ${res?.data?.registerUser?.user?.email}.`
+          )
         }
       })
       .catch(error => {
@@ -77,6 +77,14 @@ export default () => {
     <Container>
       {formError && <ErrorMessage>{formError}</ErrorMessage>}
       <form onSubmit={handleSubmit} id="loginForm">
+        <label htmlFor="email">Email: </label>
+        <input
+          type="text"
+          name="email"
+          id="email"
+          onChange={handleChange}
+          value={values.email}
+        />
         <label htmlFor="username">Username: </label>
         <input
           type="text"
@@ -97,13 +105,13 @@ export default () => {
       </form>
 
       <Button
-        loading={res.loading}
+        loading={loading}
         variant="action"
         type="submit"
         form="loginForm"
         value="Log in"
       >
-        Log in
+        Sign up
       </Button>
     </Container>
   )
