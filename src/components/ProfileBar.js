@@ -7,6 +7,8 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown"
 
 import { logoutUser } from "./../auth"
 
+import { navigate } from "gatsby"
+
 import Button from "./button"
 
 export default () => {
@@ -36,6 +38,7 @@ export default () => {
       <ArrowDropDownIcon />
 
       <Menu open={open}>
+        <MenuItem onClick={() => navigate("account")}>Account</MenuItem>
         <MenuItem onClick={() => logoutUser(dispatch)}>Log out</MenuItem>
       </Menu>
     </ProfileBar>
