@@ -1,5 +1,5 @@
 import React from "react"
-import { navigate } from "gatsby"
+
 import styled from "styled-components"
 import moment from "moment"
 import Parser from "html-react-parser"
@@ -21,8 +21,6 @@ export default props => {
   const [executePostsQuery, { data, error, loading, called }] = useLazyQuery(
     POSTS_QUERY
   )
-
-  !isLoggedIn && navigate("/")
 
   isLoggedIn &&
     user &&
