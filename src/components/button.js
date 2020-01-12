@@ -100,9 +100,9 @@ const buttonStyles = css`
     switch (variant) {
       case "outline":
         return css`
-          border: 1px solid rgb(189, 197, 211);
+          border: 1px solid rgba(189, 197, 211, 0.2);
           &:hover {
-            background: #eef0f4;
+            background: rgba(255, 255, 255, 0.2);
           }
         `
 

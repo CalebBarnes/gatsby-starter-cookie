@@ -10,6 +10,7 @@ import { logoutUser } from "./../auth"
 import { navigate } from "gatsby"
 
 import Button from "./button"
+import ClickAwayListener from "./clickAwayListener"
 
 export default () => {
   const [open, setOpen] = useState(null)
@@ -26,26 +27,32 @@ export default () => {
     setOpen(!open)
   }
 
+  // const onClickAway = () => {
+  //   console.log("clicked away!")
+  // }
+
   return (
-    <ProfileBar
-      onClick={onClick}
-      aria-controls="simple-menu"
-      aria-haspopup="true"
-    >
-      {avatar?.url && <Avatar src={avatar.url} />}
-      {username}
+    <ClickAwayListener onClickAway={() => setOpen(false)} open={open}>
+      <ProfileBar
+        onClick={onClick}
+        aria-controls="simple-menu"
+        aria-haspopup="true"
+      >
+        {avatar?.url && <Avatar src={avatar.url} />}
+        {username}
 
-      <ArrowDropDownIcon />
+        <ArrowDropDownIcon />
 
-      <Menu open={open}>
-        <MenuItem variant="outline" onClick={() => navigate("account")}>
-          Account
-        </MenuItem>
-        <MenuItem variant="outline" onClick={() => logoutUser(dispatch)}>
-          Log out
-        </MenuItem>
-      </Menu>
-    </ProfileBar>
+        <Menu open={open}>
+          <MenuItem variant="outline" onClick={() => navigate("account")}>
+            Account
+          </MenuItem>
+          <MenuItem variant="outline" onClick={() => logoutUser(dispatch)}>
+            Log out
+          </MenuItem>
+        </Menu>
+      </ProfileBar>
+    </ClickAwayListener>
   )
 }
 
