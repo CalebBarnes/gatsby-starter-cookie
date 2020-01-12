@@ -7,11 +7,16 @@ import DescriptionIcon from "@material-ui/icons/Description"
 
 export default props => {
   const { title, content, url, image, author, noPlaceholder, ...rest } = props
-
+  console.log({ image })
   return (
     <Card {...rest} to={url}>
       {image ? (
-        <FeaturedImage src={image} />
+        <FeaturedImage
+          alt={image.alt}
+          src={image.sourceUrl}
+          srcSet={image.srcSet}
+          sizes={image.sizes}
+        />
       ) : (
         !noPlaceholder && (
           <PlaceholderImage>

@@ -48,7 +48,11 @@ const POSTS_QUERY = gql`
           date
           dateGmt
           featuredImage {
-            mediaItemUrl
+            sizes
+            srcSet
+            sourceUrl
+            altText
+            caption
           }
           author {
             id

@@ -72,7 +72,6 @@ const IndexPage = () => {
             ...fetchMoreResult.posts.edges,
           ]
 
-          console.log({ prev })
           return Object.assign({}, prev, {
             posts: { ...prev.posts, ...combinedData },
           })
@@ -102,13 +101,7 @@ const IndexPage = () => {
 
         {posts?.edges && posts.edges.length
           ? posts.edges.map(({ node: { featuredImage, ...rest } }, index) => {
-              return (
-                <Post
-                  key={index}
-                  image={featuredImage?.mediaItemUrl}
-                  {...rest}
-                />
-              )
+              return <Post key={index} image={featuredImage} {...rest} />
             })
           : !loading && !error && <p>No results</p>}
 
