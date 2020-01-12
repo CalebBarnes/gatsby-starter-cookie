@@ -32,20 +32,24 @@ export default () => {
       aria-controls="simple-menu"
       aria-haspopup="true"
     >
-      <Avatar src={avatar.url} />
+      {avatar?.url && <Avatar src={avatar.url} />}
       {username}
 
       <ArrowDropDownIcon />
 
       <Menu open={open}>
-        <MenuItem onClick={() => navigate("account")}>Account</MenuItem>
-        <MenuItem onClick={() => logoutUser(dispatch)}>Log out</MenuItem>
+        <MenuItem variant="outline" onClick={() => navigate("account")}>
+          Account
+        </MenuItem>
+        <MenuItem variant="outline" onClick={() => logoutUser(dispatch)}>
+          Log out
+        </MenuItem>
       </Menu>
     </ProfileBar>
   )
 }
 
-const MenuItem = styled.button`
+const MenuItem = styled(Button)`
   border-radius: 0;
   width: 100%;
 `
@@ -53,6 +57,7 @@ const MenuItem = styled.button`
 const Menu = styled.div`
   width: 100%;
   display: flex;
+  flex-direction: column;
 
   pointer-events: none;
   opacity: 0;

@@ -18,13 +18,9 @@ export default props => {
     dispatch,
   ] = useStore()
 
-  console.log(user)
-
   const [executePostsQuery, { data, error, loading, called }] = useLazyQuery(
     POSTS_QUERY
   )
-
-  console.log(data)
 
   isLoggedIn &&
     user &&

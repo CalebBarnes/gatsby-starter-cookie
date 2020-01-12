@@ -40,9 +40,9 @@ const Component = props => {
           </h1>
 
           <Nav>
-            <LeftMenu>
+            {/* <LeftMenu>
               <NavButton to="/users">Users</NavButton>
-            </LeftMenu>
+            </LeftMenu> */}
             <RightMenu>
               {!isLoggedIn && (
                 <>
