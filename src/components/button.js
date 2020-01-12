@@ -142,6 +142,12 @@ const buttonStyles = css`
         `
     }
   }}
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      background: grey;
+    `}
 `
 
 const buttonReset = css`

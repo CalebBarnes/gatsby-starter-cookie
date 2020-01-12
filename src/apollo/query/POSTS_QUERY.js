@@ -14,8 +14,16 @@ const POSTS_QUERY = gql`
     $categoryName: String
     $hasPassword: Boolean
     $password: String
+    $first: Int
+    $last: Int
+    $before: String
+    $after: String
   ) {
     posts(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
       where: {
         search: $search
         author: $author
@@ -27,141 +35,43 @@ const POSTS_QUERY = gql`
         password: $password
       }
     ) {
-      nodes {
-        title
-        content
-        postId
-        date
-        dateGmt
-        featuredImage {
-          mediaItemUrl
-        }
-        author {
-          id
-          email
-          firstName
-          lastName
-          username
-          avatar {
-            url
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        cursor
+        node {
+          title
+          content
+          postId
+          date
+          dateGmt
+          featuredImage {
+            mediaItemUrl
           }
-          capKey
-          capabilities
-          description
-          isJwtAuthSecretRevoked
-          jwtAuthExpiration
-          locale
-          slug
-          userId
-        }
-        commentCount
-        comments {
-          nodes {
-            ...CommentFields
-            children {
-              nodes {
-                ...CommentFields
-                children {
-                  nodes {
-                    ...CommentFields
-                    children {
-                      nodes {
-                        ...CommentFields
-                        children {
-                          nodes {
-                            ...CommentFields
-                            children {
-                              nodes {
-                                ...CommentFields
-                                children {
-                                  nodes {
-                                    ...CommentFields
-                                    children {
-                                      nodes {
-                                        ...CommentFields
-                                        children {
-                                          nodes {
-                                            ...CommentFields
-                                            children {
-                                              nodes {
-                                                ...CommentFields
-                                                children {
-                                                  nodes {
-                                                    ...CommentFields
-                                                    children {
-                                                      nodes {
-                                                        ...CommentFields
-                                                        children {
-                                                          nodes {
-                                                            ...CommentFields
-                                                            children {
-                                                              nodes {
-                                                                ...CommentFields
-                                                                children {
-                                                                  nodes {
-                                                                    ...CommentFields
-                                                                    children {
-                                                                      nodes {
-                                                                        ...CommentFields
-                                                                        children {
-                                                                          nodes {
-                                                                            ...CommentFields
-                                                                            children {
-                                                                              nodes {
-                                                                                ...CommentFields
-                                                                                children {
-                                                                                  nodes {
-                                                                                    ...CommentFields
-                                                                                    children {
-                                                                                      nodes {
-                                                                                        ...CommentFields
-                                                                                        children {
-                                                                                          nodes {
-                                                                                            ...CommentFields
-                                                                                            children {
-                                                                                              nodes {
-                                                                                                ...CommentFields
-                                                                                              }
-                                                                                            }
-                                                                                          }
-                                                                                        }
-                                                                                      }
-                                                                                    }
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+          author {
+            id
+            email
+            firstName
+            lastName
+            username
+            avatar {
+              url
+            }
+            capKey
+            capabilities
+            description
+            isJwtAuthSecretRevoked
+            jwtAuthExpiration
+            locale
+            slug
+            userId
+          }
+          commentCount
+          comments {
+            nodes {
+              ...CommentFields
             }
           }
         }

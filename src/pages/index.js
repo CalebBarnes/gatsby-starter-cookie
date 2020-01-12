@@ -5,25 +5,33 @@ import { BounceLoader } from "react-spinners"
 // import moment from "moment"
 
 import SEO from "../components/seo"
-// import Button from "../components/button"
+import Button from "../components/button"
 import Input from "../components/styles/input"
 import { POSTS_QUERY } from "../apollo/query"
 
 import Card from "../components/card"
 
 const IndexPage = () => {
-  const [executeQuery, { data, error, loading, called }] = useLazyQuery(
-    POSTS_QUERY
-  )
+  const [
+    executeQuery,
+    { data, error, loading, called, fetchMore },
+  ] = useLazyQuery(POSTS_QUERY, {
+    variables: {
+      first: 9,
+    },
+    onError(err) {
+      console.log({ err })
+    },
+  })
+  const posts = data?.posts
 
   !called && executeQuery()
 
   const [search, setSearch] = useState("")
 
-  const onSearch = value => {
-    // console.log("search!")
+  const onSearch = () => {
     executeQuery({
-      variables: { search },
+      variables: { search, first: 9 },
     })
   }
 
@@ -34,17 +42,43 @@ const IndexPage = () => {
   }
 
   const onChange = e => {
-    !e && setSearch("")
-
     if (!e.target.value) {
       executeQuery({ shouldResubscribe: true })
     }
-
     setSearch(e.target.value)
-    // if (e.target.value.length > 2) {
-    //   // debounce(onSearch, 250, true)
-    //   onSearch()
-    // }
+  }
+
+  const loadMore = () => {
+    if (posts && posts?.pageInfo?.endCursor) {
+      fetchMore({
+        variables: {
+          search,
+          first: 9,
+          after: posts?.pageInfo?.endCursor,
+        },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          // console.log({ prev })
+          if (!fetchMoreResult) return prev
+
+          prev.posts.pageInfo.endCursor = undefined
+
+          const combinedData = {
+            ...prev.posts,
+            ...fetchMoreResult.posts,
+          }
+
+          combinedData.edges = [
+            ...prev.posts.edges,
+            ...fetchMoreResult.posts.edges,
+          ]
+
+          console.log({ prev })
+          return Object.assign({}, prev, {
+            posts: { ...prev.posts, ...combinedData },
+          })
+        },
+      })
+    }
   }
 
   return (
@@ -57,6 +91,7 @@ const IndexPage = () => {
         onChange={onChange}
         onKeyPress={onKeyPress}
       />
+      <span>{posts && posts.length}</span>
       <Container>
         {error && <p style={{ color: "red" }}>Something went wrong.</p>}
         {loading && !data && (
@@ -65,8 +100,8 @@ const IndexPage = () => {
           </Loader>
         )}
 
-        {data?.posts?.nodes && data.posts.nodes.length
-          ? data.posts.nodes.map(({ featuredImage, ...rest }, index) => {
+        {posts?.edges && posts.edges.length
+          ? posts.edges.map(({ node: { featuredImage, ...rest } }, index) => {
               return (
                 <Post
                   key={index}
@@ -80,6 +115,16 @@ const IndexPage = () => {
         <Post style={{ height: 0, margin: 0 }} noPlaceholder />
         <Post style={{ height: 0, margin: 0 }} noPlaceholder />
       </Container>
+      {posts?.pageInfo?.endCursor && (
+        <Button
+          variant="outline"
+          loading={loading}
+          onClick={loadMore}
+          disabled={!posts?.pageInfo?.endCursor}
+        >
+          Load more
+        </Button>
+      )}
     </div>
   )
 }
