@@ -14,6 +14,9 @@ import { getAuth } from "../auth/"
 import { useFetch } from "../utils"
 
 const IndexPage = () => {
+  const { data, error, loading, called } = useQuery(POSTS_QUERY)
+
+  console.log({ data })
   return (
     <Container>
       <SEO title="Home" />
