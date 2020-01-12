@@ -1,16 +1,16 @@
 import React from "react"
+import { navigate } from "gatsby"
 import styled from "styled-components"
-import { useStore } from "../store"
-
 import moment from "moment"
-
 import Parser from "html-react-parser"
-
 import { useLazyQuery } from "@apollo/react-hooks"
 
 import { POSTS_QUERY } from "../apollo/query"
+import { useStore } from "../store"
 
 export default props => {
+  // console.log(props)
+
   const [
     {
       userState: { isLoggedIn, user },
@@ -21,6 +21,8 @@ export default props => {
   const [executePostsQuery, { data, error, loading, called }] = useLazyQuery(
     POSTS_QUERY
   )
+
+  !isLoggedIn && navigate("/")
 
   isLoggedIn &&
     user &&

@@ -34,6 +34,9 @@ const POSTS_QUERY = gql`
         postId
         date
         dateGmt
+        featuredImage {
+          uri
+        }
         author {
           ...UserFragment
         }
