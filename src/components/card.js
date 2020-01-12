@@ -77,7 +77,7 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 10px;
+  padding: 15px;
 `
 
 const Author = styled.div`

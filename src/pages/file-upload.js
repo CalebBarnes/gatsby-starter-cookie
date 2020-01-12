@@ -8,6 +8,8 @@ import Button from "../components/button"
 
 import { useStore } from "../store"
 
+import { isBrowser } from "../utils/"
+
 export default () => {
   const [
     {
@@ -19,7 +21,7 @@ export default () => {
 
   const [file, setFile] = useState()
 
-  const formData = new FormData()
+  const formData = isBrowser && new FormData()
 
   const [executeFetch, { data, error, loading, called }] = useFetch(
     `https://calebbarnes-4dbaeb.easywp.com/wp-json/custom/v1/avatar`,
