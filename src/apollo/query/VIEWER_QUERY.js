@@ -1,12 +1,26 @@
 import gql from "graphql-tag"
 
-import { USER_FRAGMENT } from "../fragments"
+// import { USER_FRAGMENT } from "../fragments"
 
 export const VIEWER_QUERY = gql`
-  ${USER_FRAGMENT}
   query ViewerQuery {
     viewer {
-      ...UserFragment
+      id
+      email
+      firstName
+      lastName
+      username
+      avatar {
+        url
+      }
+      capKey
+      capabilities
+      description
+      isJwtAuthSecretRevoked
+      jwtAuthExpiration
+      locale
+      slug
+      userId
     }
   }
 `

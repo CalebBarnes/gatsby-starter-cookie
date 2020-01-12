@@ -4,7 +4,6 @@ import { USER_FRAGMENT } from "../fragments"
 import { COMMENT_FIELDS } from "../fragments"
 
 const POSTS_QUERY = gql`
-  ${USER_FRAGMENT}
   ${COMMENT_FIELDS}
   query PostsQuery(
     $search: String
@@ -35,10 +34,25 @@ const POSTS_QUERY = gql`
         date
         dateGmt
         featuredImage {
-          uri
+          mediaItemUrl
         }
         author {
-          ...UserFragment
+          id
+          email
+          firstName
+          lastName
+          username
+          avatar {
+            url
+          }
+          capKey
+          capabilities
+          description
+          isJwtAuthSecretRevoked
+          jwtAuthExpiration
+          locale
+          slug
+          userId
         }
         commentCount
         comments {

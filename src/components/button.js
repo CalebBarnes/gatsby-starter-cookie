@@ -101,8 +101,9 @@ const buttonStyles = css`
       case "outline":
         return css`
           border: 1px solid rgba(189, 197, 211, 0.2);
+          background: #202020;
           &:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgb(58, 58, 58);
           }
         `
 
@@ -114,7 +115,7 @@ const buttonStyles = css`
             color: white;
           }
           &:hover {
-            background: #da1f15;
+            background: rgb(58, 58, 58);
           }
         `
 
@@ -134,7 +135,7 @@ const buttonStyles = css`
         return css`
           border: 1px solid transparent;
           &:hover {
-            background: #eef0f4;
+            background: rgb(58, 58, 58);
           }
         `
     }

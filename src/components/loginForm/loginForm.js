@@ -6,6 +6,7 @@ import { useMutation } from "@apollo/react-hooks"
 import { setAuth, logoutUser } from "../../auth"
 import sanitizeErrors from "../../utils/sanitizeErrors"
 import Button from "../button"
+import Input from "../styles/input"
 import { useStore } from "../../store"
 
 import { LOGIN_USER_MUTATION } from "../../apollo/mutation"
@@ -47,7 +48,7 @@ export default () => {
     // execute login mutation with the input values from the state
     executeLogin({ variables: { username, password } })
       .then(res => {
-        console.log({ res })
+        // console.log({ res })
         if (res?.data?.login) {
           // store the auth/refresh tokens
           setAuth(res.data.login)
@@ -76,9 +77,9 @@ export default () => {
   return (
     <Container>
       {formError && <ErrorMessage>{formError}</ErrorMessage>}
-      <form onSubmit={handleSubmit} id="loginForm">
-        <label htmlFor="username">Username: </label>
-        <input
+      <Form onSubmit={handleSubmit} id="loginForm">
+        <Input
+          placeholder="Email"
           type="text"
           name="username"
           id="username"
@@ -86,25 +87,24 @@ export default () => {
           value={values.username}
         />
 
-        <label htmlFor="password">Password: </label>
-        <input
+        <Input
+          placeholder="Password"
           type="password"
           name="password"
           id="password"
           onChange={handleChange}
           value={values.password}
         />
-      </form>
-
-      <Button
-        loading={res.loading}
-        variant="action"
-        type="submit"
-        form="loginForm"
-        value="Log in"
-      >
-        Log in
-      </Button>
+        <Button
+          loading={res.loading}
+          variant="action"
+          type="submit"
+          form="loginForm"
+          value="Log in"
+        >
+          Log in
+        </Button>
+      </Form>
     </Container>
   )
 }
@@ -112,3 +112,15 @@ export default () => {
 const Container = styled.div``
 
 const ErrorMessage = styled.p``
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 800px) {
+    flex-direction: row;
+    input {
+      margin: 1px 25px 0 0;
+    }
+  }
+`

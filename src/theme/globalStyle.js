@@ -629,11 +629,11 @@ const miniReset = css`
 const GlobalStyle = createGlobalStyle`
   ${miniReset}
 
-  @media (prefers-color-scheme: dark) {
+  /* @media (prefers-color-scheme: dark) { */
     body {
       background: #202020;
       color: white;
     }
-  }
+  /* } */
 `
 export default GlobalStyle

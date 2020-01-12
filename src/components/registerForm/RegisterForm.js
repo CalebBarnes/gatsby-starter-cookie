@@ -8,6 +8,8 @@ import sanitizeErrors from "../../utils/sanitizeErrors"
 import Button from "../button"
 import { useStore } from "../../store"
 
+import Input from "../styles/input"
+
 import { REGISTER_USER_MUTATION } from "../../apollo/mutation"
 
 export default () => {
@@ -76,17 +78,17 @@ export default () => {
   return (
     <Container>
       {formError && <ErrorMessage>{formError}</ErrorMessage>}
-      <form onSubmit={handleSubmit} id="loginForm">
-        <label htmlFor="email">Email: </label>
-        <input
+      <Form onSubmit={handleSubmit} id="loginForm">
+        <label htmlFor="email">Email </label>
+        <Input
           type="text"
           name="email"
           id="email"
           onChange={handleChange}
           value={values.email}
         />
-        <label htmlFor="username">Username: </label>
-        <input
+        <label htmlFor="username">Username </label>
+        <Input
           type="text"
           name="username"
           id="username"
@@ -94,25 +96,24 @@ export default () => {
           value={values.username}
         />
 
-        <label htmlFor="password">Password: </label>
-        <input
+        <label htmlFor="password">Password </label>
+        <Input
           type="password"
           name="password"
           id="password"
           onChange={handleChange}
           value={values.password}
         />
-      </form>
-
-      <Button
-        loading={loading}
-        variant="action"
-        type="submit"
-        form="loginForm"
-        value="Log in"
-      >
-        Sign up
-      </Button>
+        <Button
+          loading={loading}
+          variant="action"
+          type="submit"
+          form="loginForm"
+          value="Log in"
+        >
+          Sign up
+        </Button>
+      </Form>
     </Container>
   )
 }
@@ -120,3 +121,9 @@ export default () => {
 const Container = styled.div``
 
 const ErrorMessage = styled.p``
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`

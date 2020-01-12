@@ -1,21 +1,23 @@
 import React from "react"
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 import { Link } from "gatsby"
 import Parser from "html-react-parser"
 
 import DescriptionIcon from "@material-ui/icons/Description"
 
 export default props => {
-  const { title, content, url, image, author, ...rest } = props
-  console.log(props)
+  const { title, content, url, image, author, noPlaceholder, ...rest } = props
+
   return (
     <Card {...rest} to={url}>
       {image ? (
         <FeaturedImage src={image} />
       ) : (
-        <PlaceholderImage>
-          <DescriptionIcon />
-        </PlaceholderImage>
+        !noPlaceholder && (
+          <PlaceholderImage>
+            <DescriptionIcon />
+          </PlaceholderImage>
+        )
       )}
       <Content>
         {title && <h3>{title}</h3>}
@@ -33,18 +35,33 @@ export default props => {
   )
 }
 
+const fadeIn = keyframes`
+from {
+  transform: translateY(5%);
+  opacity: 0;
+}
+
+to {
+  transform: translateY(0);
+  opacity: 1;
+}
+`
+
 const Card = styled.div`
+  animation: ${fadeIn} 0.25s ease-in-out;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
-  background: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.05);
+  transition: background-color 0.15s ease-in-out;
 `
 
 const FeaturedImage = styled.img`
   border-radius: 5px 5px 0px 0px;
   height: 240px;
   width: 100%;
+  background-color: rgba(255, 255, 255, 0.05);
 `
 const PlaceholderImage = styled.div`
   display: flex;

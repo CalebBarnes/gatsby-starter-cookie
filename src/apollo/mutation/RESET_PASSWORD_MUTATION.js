@@ -3,7 +3,6 @@ import gql from "graphql-tag"
 import { USER_FRAGMENT } from "../fragments"
 
 export const RESET_PASSWORD_MUTATION = gql`
-  ${USER_FRAGMENT}
   mutation resetUserPassword(
     $key: String!
     $username: String!
@@ -19,7 +18,22 @@ export const RESET_PASSWORD_MUTATION = gql`
     ) {
       clientMutationId
       user {
-        ...UserFragment
+        id
+        email
+        firstName
+        lastName
+        username
+        avatar {
+          url
+        }
+        capKey
+        capabilities
+        description
+        isJwtAuthSecretRevoked
+        jwtAuthExpiration
+        locale
+        slug
+        userId
       }
     }
   }

@@ -3,7 +3,6 @@ import gql from "graphql-tag"
 import { USER_FRAGMENT } from "../fragments"
 
 const UPDATE_USER_MUTATION = gql`
-  ${USER_FRAGMENT}
   mutation(
     $id: ID!
     $password: String
@@ -32,7 +31,22 @@ const UPDATE_USER_MUTATION = gql`
       }
     ) {
       user {
-        ...UserFragment
+        id
+        email
+        firstName
+        lastName
+        username
+        avatar {
+          url
+        }
+        capKey
+        capabilities
+        description
+        isJwtAuthSecretRevoked
+        jwtAuthExpiration
+        locale
+        slug
+        userId
       }
     }
   }
