@@ -39,8 +39,7 @@ export default props => {
       )}
       {loading && <p>loading posts</p>}
 
-      {data &&
-        data.posts &&
+      {data?.posts?.nodes &&
         data.posts.nodes.map((post, index) => (
           <div key={index}>
             <h1>{post.title}</h1>
