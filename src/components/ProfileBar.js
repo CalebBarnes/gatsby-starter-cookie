@@ -44,7 +44,7 @@ export default () => {
         <ArrowDropDownIcon />
 
         <Menu open={open}>
-          <MenuItem variant="outline" onClick={() => navigate("account")}>
+          <MenuItem variant="outline" to="/account">
             Account
           </MenuItem>
           <MenuItem variant="outline" onClick={() => logoutUser(dispatch)}>

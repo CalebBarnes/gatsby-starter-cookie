@@ -64,10 +64,12 @@ const LoaderContainer = styled.div`
 
 const buttonStyles = css`
   border-radius: 3px;
-  display: inline-block;
-  vertical-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   cursor: pointer;
+  line-height: 1;
   ${({ loading }) =>
     loading
       ? css`
@@ -93,7 +95,7 @@ const buttonStyles = css`
           padding: 19px 14px;
         `
       : css`
-          padding: 9px 14px;
+          padding: 12px 14px;
         `}
 
   ${({ variant }) => {

@@ -117,6 +117,6 @@ const Loader = styled.div`
 
 const SearchBar = styled(Input)`
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
   margin-bottom: 30px;
 `
