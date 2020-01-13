@@ -46,6 +46,8 @@ const IndexPage = () => {
       executeQuery({ shouldResubscribe: true })
     }
     setSearch(e.target.value)
+
+    // executeQuery({ variables: { search }, shouldResubscribe: true })
   }
 
   const loadMore = () => {

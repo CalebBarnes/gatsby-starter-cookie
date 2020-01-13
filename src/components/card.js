@@ -7,7 +7,7 @@ import DescriptionIcon from "@material-ui/icons/Description"
 
 export default props => {
   const { title, content, url, image, author, noPlaceholder, ...rest } = props
-  console.log({ image })
+
   return (
     <Card {...rest} to={url}>
       {image ? (
@@ -63,6 +63,7 @@ const Card = styled.div`
 `
 
 const FeaturedImage = styled.img`
+  object-fit: cover;
   border-radius: 5px 5px 0px 0px;
   height: 240px;
   width: 100%;
