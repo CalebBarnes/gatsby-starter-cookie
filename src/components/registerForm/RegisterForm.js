@@ -81,6 +81,7 @@ export default () => {
       <Form onSubmit={handleSubmit} id="loginForm">
         <label htmlFor="email">Email </label>
         <Input
+          autoComplete="off"
           type="text"
           name="email"
           id="email"
@@ -89,6 +90,7 @@ export default () => {
         />
         <label htmlFor="username">Username </label>
         <Input
+          autoComplete="off"
           type="text"
           name="username"
           id="username"
@@ -98,6 +100,7 @@ export default () => {
 
         <label htmlFor="password">Password </label>
         <Input
+          autoComplete="off"
           type="password"
           name="password"
           id="password"

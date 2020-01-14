@@ -8,11 +8,15 @@ import Edges from "../components/edges"
 
 import useAuthServices from "../auth/useAuthServices"
 
+import LoginRegisterDialog from "../components/loginRegisterDialog"
+
 export default ({ children }) => {
   useAuthServices(children?.props?.path)
 
+  console.log(document.body)
   return (
     <Container>
+      <LoginRegisterDialog />
       <div>
         <Header />
         <Edges>{children}</Edges>

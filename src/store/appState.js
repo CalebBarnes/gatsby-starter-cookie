@@ -2,6 +2,7 @@ import produce from "immer"
 
 export const appState = {
   loginDialog: false,
+  registerDialog: false,
   progress: false,
   menu: false,
 }
@@ -25,6 +26,9 @@ export const appReducer = (state, action) => {
 
       case "SET_LOGIN_DIALOG":
         draft.loginDialog = payload
+        break
+      case "SET_REGISTER_DIALOG":
+        draft.registerDialog = payload
         break
 
       default:

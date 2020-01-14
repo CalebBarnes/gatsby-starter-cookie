@@ -3,6 +3,8 @@ import styled, { css } from "styled-components"
 import { Link } from "gatsby"
 import * as Loaders from "react-spinners"
 
+import * as theme from "../theme"
+
 export default props => {
   const {
     value,
@@ -124,7 +126,7 @@ const buttonStyles = css`
       case "action":
         return css`
           border: 1px solid #145eda;
-          background: #156dff;
+          background: ${theme.colors.primary};
           .children {
             color: white;
           }

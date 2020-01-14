@@ -8,18 +8,17 @@ const ClickAwayListener = props => {
   const useClickAwayListener = ref => {
     function handleClickOutside(event) {
       if (ref.current && !ref.current.contains(event.target)) {
-        // alert("You clicked outside of me!")
         open && typeof onClickAway === "function" && onClickAway()
       }
     }
 
     useEffect(() => {
       // Bind the event listener
-      typeof windows !== `undefined` &&
+      typeof window !== `undefined` &&
         document.addEventListener("mousedown", handleClickOutside)
       return () => {
         // Unbind the event listener on clean up
-        typeof windows !== `undefined` &&
+        typeof window !== `undefined` &&
           document.removeEventListener("mousedown", handleClickOutside)
       }
     })

@@ -1,5 +1,7 @@
 import { createGlobalStyle, css } from "styled-components"
 
+import { colors } from "./index"
+
 const miniReset = css`
   /* mini css reset */
   html {
@@ -191,7 +193,7 @@ const miniReset = css`
   html {
     font: 112.5%/1.45em georgia, serif;
     box-sizing: border-box;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
   }
   * {
     box-sizing: inherit;
@@ -629,11 +631,19 @@ const miniReset = css`
 const GlobalStyle = createGlobalStyle`
   ${miniReset}
 
-  /* @media (prefers-color-scheme: dark) { */
+
     body {
-      background: #202020;
-      color: white;
+      background: ${colors.darkBackground};
+      color: ${colors.headline};
+      h1,h2,h3,h4,h5,h6 {
+        color:${colors.headline};
+      }
+
+      p {
+        color: ${colors.paragraph};
+      }
+
     }
-  /* } */
+
 `
 export default GlobalStyle

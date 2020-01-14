@@ -6,7 +6,6 @@ import Edges from "./edges"
 import Button from "./button"
 
 import { useStore } from "../store"
-import { logoutUser } from "./../auth"
 
 import ProfileBar from "./ProfileBar"
 
@@ -29,6 +28,7 @@ const Component = props => {
     {
       userState: { isLoggedIn },
     },
+    dispatch,
   ] = useStore()
 
   return (
@@ -40,15 +40,26 @@ const Component = props => {
           </h1>
 
           <Nav>
-            {/* <LeftMenu>
-              <NavButton to="/users">Users</NavButton>
-            </LeftMenu> */}
             <RightMenu>
               {!isLoggedIn && (
                 <>
-                  <NavButton to="/login">Log in</NavButton>
+                  <NavButton
+                    onClick={() =>
+                      dispatch({ type: "SET_LOGIN_DIALOG", payload: true })
+                    }
+                  >
+                    Log in
+                  </NavButton>
 
-                  <NavButton variant="action" to="/register">
+                  <NavButton
+                    variant="action"
+                    onClick={() =>
+                      dispatch({
+                        type: "SET_REGISTER_DIALOG",
+                        payload: true,
+                      })
+                    }
+                  >
                     Sign up
                   </NavButton>
                 </>

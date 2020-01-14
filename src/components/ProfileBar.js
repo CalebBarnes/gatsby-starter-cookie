@@ -10,7 +10,7 @@ import { logoutUser } from "./../auth"
 import { navigate } from "gatsby"
 
 import Button from "./button"
-import ClickAwayListener from "./clickAwayListener"
+import ClickAwayListener from "./common/ClickAwayListener"
 
 export default () => {
   const [open, setOpen] = useState(null)

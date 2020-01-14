@@ -80,6 +80,7 @@ export default () => {
       <Form onSubmit={handleSubmit} id="loginForm">
         <Input
           placeholder="Email"
+          autoComplete="username"
           type="text"
           name="username"
           id="username"
@@ -89,6 +90,7 @@ export default () => {
 
         <Input
           placeholder="Password"
+          autoComplete="current-password"
           type="password"
           name="password"
           id="password"
