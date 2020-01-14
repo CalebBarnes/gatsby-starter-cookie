@@ -133,7 +133,7 @@ const Container = styled.div`
 `
 
 const Post = styled(Card)`
-  cursor: pointer;
+  /* cursor: pointer; */
   width: calc(100%);
   @media (min-width: 680px) {
     width: calc(100% / 2 - 10px);
@@ -141,9 +141,9 @@ const Post = styled(Card)`
   @media (min-width: 980px) {
     width: calc(100% / 3 - 15px);
   }
-  &:hover {
+  /* &:hover {
     background-color: rgba(255, 255, 255, 0.08);
-  }
+  } */
 `
 
 const Loader = styled.div`

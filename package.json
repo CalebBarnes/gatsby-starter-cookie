@@ -21,6 +21,7 @@
     "dotenv": "^8.2.0",
     "gatsby": "^2.15.29",
     "gatsby-image": "^2.2.24",
+    "gatsby-plugin-google-fonts": "^1.0.1",
     "gatsby-plugin-layout": "^1.1.10",
     "gatsby-plugin-manifest": "^2.2.20",
     "gatsby-plugin-netlify-cache": "^1.2.0",
@@ -44,6 +45,8 @@
     "react-spinners": "^0.6.1",
     "styled-components": "^4.4.0",
     "styled-media-query": "^2.1.2",
+    "styled-reset": "^4.0.9",
+    "tyjs": "^0.0.2",
     "unfetch": "^4.1.0"
   },
   "devDependencies": {

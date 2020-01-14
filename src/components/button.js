@@ -105,9 +105,9 @@ const buttonStyles = css`
       case "outline":
         return css`
           border: 1px solid rgba(189, 197, 211, 0.2);
-          background: #202020;
+          background: ${theme.colors.darkBackground};
           &:hover {
-            background: rgb(58, 58, 58);
+            filter: brightness(110%);
           }
         `
 
@@ -117,21 +117,23 @@ const buttonStyles = css`
           background: #f62c20;
           .children {
             color: white;
+            background: red;
           }
           &:hover {
-            background: rgb(58, 58, 58);
+            filter: brightness(110%);
           }
         `
 
       case "action":
         return css`
-          border: 1px solid #145eda;
+          border: 1px solid ${theme.colors.primary};
           background: ${theme.colors.primary};
           .children {
             color: white;
           }
           &:hover {
-            background: #145eda;
+            border: 1px solid ${theme.colors.secondary};
+            background: ${theme.colors.secondary};
           }
         `
 
@@ -139,7 +141,7 @@ const buttonStyles = css`
         return css`
           border: 1px solid transparent;
           &:hover {
-            background: rgb(58, 58, 58);
+            background-color: ${theme.colors.lightBackground};
           }
         `
     }

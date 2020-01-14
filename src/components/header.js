@@ -95,7 +95,7 @@ const Nav = styled.nav`
 `
 
 const Header = styled.header`
-  margin-bottom: 1.45rem;
+  /* margin-bottom: 1.45rem; */
 
   > div {
     padding: 1.45rem 0;

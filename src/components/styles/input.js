@@ -1,13 +1,15 @@
 import styled from "styled-components"
+import * as theme from "../../theme"
 
 const Input = styled.input`
   margin-bottom: 15px;
   color: white;
   border: 0;
   border-radius: 2px;
-  background-color: rgba(255, 255, 255, 0.05);
+
+  background-color: ${theme.colors.lightBackground};
   &:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    filter: brightness(110%);
   }
   padding: 10px 20px;
 `

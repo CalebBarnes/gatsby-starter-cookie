@@ -4,6 +4,8 @@ import styled from "styled-components"
 
 import Edges from "./edges"
 
+import * as theme from "../theme/"
+
 const Component = props => {
   return (
     <Footer {...props}>
@@ -22,7 +24,7 @@ export default Component
 
 const Footer = styled.footer`
   margin-top: 80px;
-  background: #202020;
+  background: ${theme.colors.lightBackground};
   color: white;
   a {
     color: inherit;

@@ -5,6 +5,8 @@ import Parser from "html-react-parser"
 
 import DescriptionIcon from "@material-ui/icons/Description"
 
+import * as theme from "../theme"
+
 export default props => {
   const { title, content, url, image, author, noPlaceholder, ...rest } = props
 
@@ -58,7 +60,7 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: ${theme.colors.lightBackground};
   transition: background-color 0.15s ease-in-out;
 `
 
@@ -95,7 +97,6 @@ const Avatar = styled.img`
   width: 45px;
   height: 45px;
   border-radius: 100%;
-  margin-bottom: 0px;
 `
 
 const Username = styled.span`
