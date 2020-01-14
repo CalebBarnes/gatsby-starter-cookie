@@ -13,7 +13,6 @@ import LoginRegisterDialog from "../components/loginRegisterDialog"
 export default ({ children }) => {
   useAuthServices(children?.props?.path)
 
-  console.log(document.body)
   return (
     <Container>
       <LoginRegisterDialog />
