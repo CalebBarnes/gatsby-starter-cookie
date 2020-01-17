@@ -21,19 +21,21 @@ export default () => {
 
   const [file, setFile] = useState()
 
-  const formData = isBrowser && new FormData()
+  const formData = isBrowser && new FormData();
+
+  //Testing sending other info to the server through the formData
+  isLoggedIn && formData.append("id", user.userId);
 
   const [executeFetch, { data, error, loading, called }] = useFetch(
     `https://calebbarnes-4dbaeb.easywp.com/wp-json/custom/v1/avatar`,
     {
       headers: {
-        authorization: () =>
-          auth?.authToken ? `Bearer ${auth.authToken}` : ``,
-        "Content-Type": "application/x-www-form-urlencoded",
+        //For some reason using the arrow function seams to put incorrect line breaks or something into the authorization header
+        //which causes stuff to break.
+        authorization: auth?.authToken ? `Bearer ${auth.authToken}` : ``
       },
       method: "POST",
-      mimeType: "multipart/form-data",
-      data: formData,
+      body: formData,
       onCompleted: res => {
         console.log({ res })
       },
@@ -43,38 +45,29 @@ export default () => {
     }
   )
 
+
   const handleChange = e => {
     const {
       target: { files },
     } = e
 
-    Array.from(files).forEach(file => {
-      formData.append(
-        "avatar",
-        file,
-        Math.random()
-          .toString(36)
-          .substring(2, 15) +
-          Math.random()
-            .toString(36)
-            .substring(2, 15)
-      )
+    const reader = new FileReader()
 
-      const reader = new FileReader()
+    reader.onloadend = e => {
+      setFile(e.target.result)
+    }
 
-      reader.onloadend = e => {
-        // console.log(e)
-        setFile(e.target.result)
-      }
-
-      reader.readAsDataURL(file)
-    })
-
+    reader.readAsDataURL(files[0])
     console.log(formData.getAll("avatar"))
   }
 
   const handleSubmit = e => {
-    e.preventDefault()
+    e.preventDefault();
+
+    //Not sure why but accessing the file through the vdom like this seems to work
+    const fileInput = document.getElementById('file');
+    formData.append('file', fileInput.files[0], 'avatar.png');
+
     isLoggedIn && user && file && executeFetch()
   }
 
