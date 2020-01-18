@@ -34,18 +34,22 @@ export default () => {
     }
     reader.readAsDataURL(files[0])
 
-    formData.append("file", files[0], files[0].name)
+    // formData.append("file", files[0], files[0].name)
 
-    console.log(files[0])
-    for (var [key, value] of formData.entries()) {
-      console.log(key, value)
-    }
+    // console.log(files[0])
+    // for (var [key, value] of formData.entries()) {
+    //   console.log(key, value)
+    // }
 
     // console.log(formData.getAll("file"))
   }
 
   const handleSubmit = e => {
     e.preventDefault()
+
+    //Not sure why but accessing the file through the vdom like this seems to work
+    const fileInput = document.getElementById("file")
+    formData.append("file", fileInput.files[0], "avatar.png")
 
     isLoggedIn && user && file && executeFetch()
   }
