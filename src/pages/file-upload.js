@@ -23,17 +23,42 @@ export default () => {
 
   const formData = isBrowser && new FormData()
 
+  const handleChange = e => {
+    const {
+      target: { files },
+    } = e
+
+    const reader = new FileReader()
+    reader.onloadend = e => {
+      setFile(e.target.result)
+    }
+    reader.readAsDataURL(files[0])
+
+    formData.append("file", files[0], files[0].name)
+
+    console.log(files[0])
+    for (var [key, value] of formData.entries()) {
+      console.log(key, value)
+    }
+
+    // console.log(formData.getAll("file"))
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+
+    isLoggedIn && user && file && executeFetch()
+  }
+
   const [executeFetch, { data, error, loading, called }] = useFetch(
     `https://calebbarnes-4dbaeb.easywp.com/wp-json/custom/v1/avatar`,
     {
       headers: {
-        authorization: () =>
-          auth?.authToken ? `Bearer ${auth.authToken}` : ``,
-        "Content-Type": "application/x-www-form-urlencoded",
+        authorization: auth?.authToken ? `Bearer ${auth.authToken}` : ``,
       },
       method: "POST",
-      mimeType: "multipart/form-data",
-      data: formData,
+      mode: "no-cors",
+      body: formData,
       onCompleted: res => {
         console.log({ res })
       },
@@ -42,41 +67,6 @@ export default () => {
       },
     }
   )
-
-  const handleChange = e => {
-    const {
-      target: { files },
-    } = e
-
-    Array.from(files).forEach(file => {
-      formData.append(
-        "avatar",
-        file,
-        Math.random()
-          .toString(36)
-          .substring(2, 15) +
-          Math.random()
-            .toString(36)
-            .substring(2, 15)
-      )
-
-      const reader = new FileReader()
-
-      reader.onloadend = e => {
-        // console.log(e)
-        setFile(e.target.result)
-      }
-
-      reader.readAsDataURL(file)
-    })
-
-    console.log(formData.getAll("avatar"))
-  }
-
-  const handleSubmit = e => {
-    e.preventDefault()
-    isLoggedIn && user && file && executeFetch()
-  }
 
   return (
     <div>

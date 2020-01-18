@@ -21,6 +21,7 @@ export const useFetch = (endpoint, args = {}) => {
     onCompleted,
     onError,
     body,
+    mode,
   } = args
 
   // console.log("useFetchargs:", { args })
@@ -42,6 +43,7 @@ export const useFetch = (endpoint, args = {}) => {
       headers: authHeaders,
       method,
       body,
+      mode,
     })
       .then(async response => {
         const json = await response.json()
