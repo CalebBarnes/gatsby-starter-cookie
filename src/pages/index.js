@@ -11,7 +11,15 @@ import { POSTS_QUERY } from "../apollo/query"
 
 import Card from "../components/card"
 
+import { useStore } from "../store"
+
 const IndexPage = () => {
+  const [
+    {
+      userState: { isLoggedIn },
+    },
+  ] = useStore()
+
   const [
     executeQuery,
     { data, error, loading, called, fetchMore },
@@ -85,14 +93,27 @@ const IndexPage = () => {
   return (
     <div>
       <SEO title="Home" />
-      <SearchBar
-        type="text"
-        placeholder="Search"
-        value={search}
-        onChange={onChange}
-        onKeyPress={onKeyPress}
-      />
-      <span>{posts && posts.length}</span>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+        }}
+      >
+        <SearchBar
+          type="text"
+          placeholder="Search"
+          value={search}
+          onChange={onChange}
+          onKeyPress={onKeyPress}
+        />
+
+        {isLoggedIn && (
+          <Button variant="action" to="/create-post">
+            New Post
+          </Button>
+        )}
+      </div>
       <Container>
         {error && <p style={{ color: "red" }}>Something went wrong.</p>}
         {loading && !data && (

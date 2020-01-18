@@ -4,7 +4,6 @@ import { USER_FRAGMENT } from "../fragments"
 import { COMMENT_FIELDS } from "../fragments"
 
 const POSTS_QUERY = gql`
-  ${COMMENT_FIELDS}
   query PostsQuery(
     $search: String
     $author: Int
@@ -73,11 +72,6 @@ const POSTS_QUERY = gql`
             userId
           }
           commentCount
-          comments {
-            nodes {
-              ...CommentFields
-            }
-          }
         }
       }
     }

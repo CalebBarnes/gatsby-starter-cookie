@@ -9,7 +9,7 @@ import * as theme from "../theme"
 
 export default props => {
   const { title, content, url, image, author, noPlaceholder, ...rest } = props
-
+  console.log({ props })
   return (
     <Card {...rest} to={url}>
       {image ? (

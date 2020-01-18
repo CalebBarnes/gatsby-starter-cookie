@@ -183,10 +183,12 @@ const buttonReset = css`
 const StyledLink = styled(Link)`
   ${buttonStyles}
   position: relative;
+  text-decoration: none;
 `
 const StyledAnchor = styled.a`
   ${buttonStyles}
   position: relative;
+  text-decoration: none;
 `
 const StyledButton = styled.button`
   ${buttonReset}

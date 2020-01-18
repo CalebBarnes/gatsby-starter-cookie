@@ -62,6 +62,7 @@ const MenuItem = styled(Button)`
 `
 
 const Menu = styled.div`
+  z-index: 12;
   width: 100%;
   display: flex;
   flex-direction: column;
