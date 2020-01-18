@@ -26,13 +26,15 @@ export default props => {
     registerDialog && setActiveTab(1)
   }, [loginDialog, registerDialog])
 
+  const closeDialog = () => {
+    dispatch({ type: "SET_LOGIN_DIALOG", payload: false })
+    dispatch({ type: "SET_REGISTER_DIALOG", payload: false })
+  }
+
   return (
     <LoginRegisterDialog
       open={loginDialog || registerDialog}
-      onClose={() => {
-        dispatch({ type: "SET_LOGIN_DIALOG", payload: false })
-        dispatch({ type: "SET_REGISTER_DIALOG", payload: false })
-      }}
+      onClose={closeDialog}
     >
       <Tabs>
         <Tab
@@ -55,7 +57,11 @@ export default props => {
         </Tab>
       </Tabs>
 
-      {activeTab === 0 ? <LoginForm /> : <RegisterForm />}
+      {activeTab === 0 ? (
+        <LoginForm onSuccess={closeDialog} />
+      ) : (
+        <RegisterForm onSuccess={closeDialog} />
+      )}
     </LoginRegisterDialog>
   )
 }

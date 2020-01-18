@@ -12,7 +12,7 @@ import Input from "../styles/input"
 
 import { REGISTER_USER_MUTATION } from "../../apollo/mutation"
 
-export default () => {
+export default ({ onSuccess, onError }) => {
   // dispatch to manage login state & store user info
   const [, dispatch] = useStore()
 
@@ -53,6 +53,7 @@ export default () => {
     // execute login mutation with the input values from the state
     executeRegisterUser({ variables: { username, email, password } })
       .then(res => {
+        typeof onSuccess === "function" && onSuccess()
         // console.log(res)
         if (res?.data?.registerUser?.user) {
           // success. user registered.
@@ -62,6 +63,7 @@ export default () => {
         }
       })
       .catch(error => {
+        typeof onError === "function" && onError()
         if (error?.graphQLErrors) {
           // handle form errors
           error.graphQLErrors.map(err =>

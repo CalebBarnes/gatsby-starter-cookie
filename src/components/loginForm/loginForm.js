@@ -11,7 +11,7 @@ import { useStore } from "../../store"
 
 import { LOGIN_USER_MUTATION } from "../../apollo/mutation"
 
-export default () => {
+export default ({ onSuccess, onError }) => {
   // dispatch to manage login state & store user info
   const [, dispatch] = useStore()
 
@@ -50,6 +50,7 @@ export default () => {
       .then(res => {
         // console.log({ res })
         if (res?.data?.login) {
+          typeof onSuccess === "function" && onSuccess()
           // store the auth/refresh tokens
           setAuth(res.data.login)
 
@@ -61,6 +62,7 @@ export default () => {
         }
       })
       .catch(error => {
+        typeof onError === "function" && onError()
         if (error?.graphQLErrors) {
           // handle form errors
           error.graphQLErrors.map(err =>
