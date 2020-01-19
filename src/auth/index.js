@@ -53,3 +53,9 @@ export const logoutUser = dispatch => {
   // update logged in state
   dispatch({ type: "SET_LOGGED_IN", payload: false })
 }
+
+export const getAuthToken = () => {
+  const { authToken } = getAuth()
+  console.log({ authToken })
+  return authToken
+}
