@@ -41,6 +41,7 @@ const POSTS_QUERY = gql`
       edges {
         cursor
         node {
+          id
           title
           content
           postId

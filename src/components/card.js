@@ -5,10 +5,26 @@ import Parser from "html-react-parser"
 
 import DescriptionIcon from "@material-ui/icons/Description"
 
+import Button from "../components/button"
+
 import * as theme from "../theme"
+import { DELETE_POST_MUTATION } from "../apollo/mutation"
 
 export default props => {
-  const { title, content, url, image, author, noPlaceholder, ...rest } = props
+  const {
+    index,
+    posts,
+    id,
+    title,
+    content,
+    url,
+    image,
+    author,
+    noPlaceholder,
+    onDelete,
+    canBeDeleted = true,
+    ...rest
+  } = props
 
   return (
     <Card {...rest} to={url}>
@@ -36,6 +52,24 @@ export default props => {
             {author?.avatar?.url && <Avatar src={author.avatar.url} />}
             {author?.slug && <Username>{author.slug}</Username>}
           </Author>
+        )}
+        {canBeDeleted && (
+          <Button
+            variant="outline"
+            onClick={() => {
+              const filteredPosts = posts.filter(post => post.node.id !== id)
+              console.log({ posts })
+              console.log({ filteredPosts })
+              onDelete({
+                variables: { id },
+                update: store => {
+                  console.log(store)
+                },
+              })
+            }}
+          >
+            Delete this post
+          </Button>
         )}
       </Content>
     </Card>

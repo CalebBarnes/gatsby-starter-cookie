@@ -30,8 +30,6 @@ export default ({ onError }) => {
 
   const [executeCreatePost, res] = useMutation(CREATE_POST_MUTATION)
 
-  console.log({ res })
-
   const handleSubmit = e => {
     // prevent default form submission
     e.preventDefault()

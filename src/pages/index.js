@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import { useLazyQuery } from "@apollo/react-hooks"
+import { useLazyQuery, useMutation } from "@apollo/react-hooks"
 import { BounceLoader } from "react-spinners"
 // import moment from "moment"
 
@@ -9,6 +9,7 @@ import Button from "../components/button"
 import Input from "../components/styles/input"
 import { POSTS_QUERY } from "../apollo/query"
 
+import { DELETE_POST_MUTATION } from "../apollo/mutation"
 import Card from "../components/card"
 
 import { useStore } from "../store"
@@ -90,6 +91,8 @@ const IndexPage = () => {
     }
   }
 
+  const [deletePostById, deletedResponse] = useMutation(DELETE_POST_MUTATION)
+
   return (
     <div>
       <SEO title="Home" />
@@ -124,12 +127,29 @@ const IndexPage = () => {
 
         {posts?.edges && posts.edges.length
           ? posts.edges.map(({ node: { featuredImage, ...rest } }, index) => {
-              return <Post key={index} image={featuredImage} {...rest} />
+              return (
+                <Post
+                  posts={posts.edges}
+                  key={index}
+                  index={index}
+                  image={featuredImage}
+                  {...rest}
+                  onDelete={deletePostById}
+                />
+              )
             })
           : !loading && !error && <p>No results</p>}
 
-        <Post style={{ height: 0, margin: 0 }} noPlaceholder />
-        <Post style={{ height: 0, margin: 0 }} noPlaceholder />
+        <Post
+          style={{ height: 0, margin: 0 }}
+          noPlaceholder
+          canBeDeleted={false}
+        />
+        <Post
+          style={{ height: 0, margin: 0 }}
+          noPlaceholder
+          canBeDeleted={false}
+        />
       </Container>
       {posts?.pageInfo?.endCursor && (
         <Button
