@@ -49,5 +49,11 @@ module.exports = {
     },
     `gatsby-plugin-layout`,
     `gatsby-plugin-styled-components`,
+    {
+      resolve: `gatsby-source-wordpress-experimental`,
+      options: {
+        url: process.env.GATSBY_WPGRAPHQL_URL,
+      },
+    },
   ],
 }
