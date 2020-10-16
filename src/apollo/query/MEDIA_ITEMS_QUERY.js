@@ -1,16 +1,12 @@
 import gql from "graphql-tag"
 
-import { USER_FRAGMENT } from "../fragments"
-import { COMMENT_FIELDS } from "../fragments"
+// import { USER_FRAGMENT } from "../fragments"
+// import { COMMENT_FIELDS } from "../fragments"
 
-const POSTS_QUERY = gql`
-  query PostsQuery(
+const MEDIA_ITEMS_QUERY = gql`
+  query MediaItemsQuery(
     $search: String
     $author: Int
-    $categoryId: Int
-    $categoryIn: [ID]
-    $categoryNotIn: [ID]
-    $categoryName: String
     $hasPassword: Boolean
     $password: String
     $first: Int
@@ -18,7 +14,7 @@ const POSTS_QUERY = gql`
     $before: String
     $after: String
   ) {
-    posts(
+    mediaItems(
       first: $first
       last: $last
       before: $before
@@ -26,36 +22,20 @@ const POSTS_QUERY = gql`
       where: {
         search: $search
         author: $author
-        categoryId: $categoryId
-        categoryIn: $categoryIn
-        categoryName: $categoryName
-        categoryNotIn: $categoryNotIn
         hasPassword: $hasPassword
         password: $password
       }
     ) {
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
       edges {
         cursor
         node {
           id
           title
-          content
-          postId
+          altText
+          mediaItemUrl
+          sourceUrl
           date
           dateGmt
-          featuredImage {
-            node {
-              sizes
-              srcSet
-              sourceUrl
-              altText
-              caption
-            }
-          }
           author {
             node {
               id
@@ -83,4 +63,4 @@ const POSTS_QUERY = gql`
   }
 `
 
-export default POSTS_QUERY
+export default MEDIA_ITEMS_QUERY

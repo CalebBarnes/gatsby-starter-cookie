@@ -37,6 +37,7 @@ export default props => {
           <h5>{user?.username}</h5>
         </div>
       )}
+
       {loading && <p>loading posts</p>}
 
       {data?.posts?.nodes &&

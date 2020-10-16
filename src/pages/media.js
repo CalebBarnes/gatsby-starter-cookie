@@ -7,9 +7,10 @@ import { BounceLoader } from "react-spinners"
 import SEO from "../components/seo"
 import Button from "../components/button"
 import Input from "../components/styles/input"
-import { POSTS_QUERY } from "../apollo/query"
+import MEDIA_ITEMS_QUERY from "../apollo/query/MEDIA_ITEMS_QUERY"
+import MediaItemThumb from "../components/templateParts/mediaItemThumb"
 
-import { DELETE_POST_MUTATION } from "../apollo/mutation"
+// import { DELETE_POST_MUTATION } from "../apollo/mutation"
 import Card from "../components/card"
 
 import { useStore } from "../store"
@@ -24,15 +25,16 @@ const IndexPage = () => {
   const [
     executeQuery,
     { data, error, loading, called, fetchMore },
-  ] = useLazyQuery(POSTS_QUERY, {
+  ] = useLazyQuery(MEDIA_ITEMS_QUERY, {
     variables: {
-      first: 9,
+      first: 100,
     },
     onError(err) {
       console.log({ err })
     },
   })
-  const posts = data?.posts
+
+  console.log({ data, error, loading, called })
 
   !called && executeQuery()
 
@@ -40,7 +42,7 @@ const IndexPage = () => {
 
   const onSearch = () => {
     executeQuery({
-      variables: { search, first: 9 },
+      variables: { search, first: 100 },
     })
   }
 
@@ -58,40 +60,6 @@ const IndexPage = () => {
 
     // executeQuery({ variables: { search }, shouldResubscribe: true })
   }
-
-  const loadMore = () => {
-    if (posts && posts?.pageInfo?.endCursor) {
-      fetchMore({
-        variables: {
-          search,
-          first: 9,
-          after: posts?.pageInfo?.endCursor,
-        },
-        updateQuery: (prev, { fetchMoreResult }) => {
-          // console.log({ prev })
-          if (!fetchMoreResult) return prev
-
-          prev.posts.pageInfo.endCursor = undefined
-
-          const combinedData = {
-            ...prev.posts,
-            ...fetchMoreResult.posts,
-          }
-
-          combinedData.edges = [
-            ...prev.posts.edges,
-            ...fetchMoreResult.posts.edges,
-          ]
-
-          return Object.assign({}, prev, {
-            posts: { ...prev.posts, ...combinedData },
-          })
-        },
-      })
-    }
-  }
-
-  const [deletePostById, deletedResponse] = useMutation(DELETE_POST_MUTATION)
 
   return (
     <div>
@@ -118,14 +86,26 @@ const IndexPage = () => {
         )}
       </div>
       <Container>
-        {error && <p style={{ color: "red" }}>Something went wrong.</p>}
+        {error?.graphQLErrors && (
+          <Errors>
+            {error.graphQLErrors.map(({ message }, index) => (
+              <p key={index}>{message}</p>
+            ))}
+          </Errors>
+        )}
+
         {loading && !data && (
           <Loader>
             <BounceLoader color="rgba(255,255,255,0.1)" />
           </Loader>
         )}
 
-        {posts?.edges && posts.edges.length
+        {data?.mediaItems?.edges &&
+          data.mediaItems.edges.map(({ node }) => {
+            return <MediaItemThumb key={node.id} {...node} />
+          })}
+
+        {/* {posts?.edges && posts.edges.length
           ? posts.edges.map(({ node: { featuredImage, ...rest } }, index) => {
               return (
                 <Post
@@ -138,7 +118,7 @@ const IndexPage = () => {
                 />
               )
             })
-          : !loading && !error && <p>No results</p>}
+          : !loading && !error && <p>No results</p>} */}
 
         <Post
           style={{ height: 0, margin: 0 }}
@@ -151,17 +131,16 @@ const IndexPage = () => {
           canBeDeleted={false}
         />
       </Container>
-
-      {posts?.pageInfo?.endCursor && (
+      {/* {posts?.pageInfo?.endCursor && (
         <Button
           variant="outline"
           loading={loading}
-          onClick={loadMore}
+        //   onClick={loadMore}
           disabled={!posts?.pageInfo?.endCursor}
         >
           Load more
         </Button>
-      )}
+      )} */}
     </div>
   )
 }
@@ -175,7 +154,6 @@ const Container = styled.div`
 `
 
 const Post = styled(Card)`
-  /* cursor: pointer; */
   width: calc(100%);
   @media (min-width: 680px) {
     width: calc(100% / 2 - 10px);
@@ -183,9 +161,6 @@ const Post = styled(Card)`
   @media (min-width: 980px) {
     width: calc(100% / 3 - 15px);
   }
-  /* &:hover {
-    background-color: rgba(255, 255, 255, 0.08);
-  } */
 `
 
 const Loader = styled.div`
@@ -201,4 +176,10 @@ const SearchBar = styled(Input)`
   width: 100%;
   max-width: 700px;
   margin-bottom: 30px;
+`
+
+const Errors = styled.div`
+  > p {
+    color: red;
+  }
 `

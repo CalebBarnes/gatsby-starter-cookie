@@ -8,7 +8,7 @@ import { setContext } from "apollo-link-context"
 import fetch from "unfetch"
 import { getAuth } from "../auth"
 
-const uri = "https://calebbarnes-4dbaeb.easywp.com/graphql"
+const uri = process.env.GATSBY_WPGRAPHQL_URL
 
 // ! TODO: Check if authToken expired before each request
 

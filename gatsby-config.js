@@ -6,7 +6,7 @@ module.exports = {
   siteMetadata: {
     title: `App`,
     description: `A simple Gatsby theme with my essentials preconfigured.`,
-    author: `Caleb Barnes`,
+    author: `Author Name`,
   },
   plugins: [
     {
